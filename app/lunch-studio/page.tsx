@@ -359,32 +359,45 @@ export default function LunchStudioPage() {
                                                 );
                                             }}
                                             className={cn(
-                                                "p-4 rounded-xl cursor-pointer transition-all flex items-center gap-4 border-2",
+                                                "p-4 rounded-xl cursor-pointer transition-all border-2 relative overflow-hidden",
                                                 isSelected
                                                     ? "bg-emerald-500/20 border-emerald-400"
                                                     : "bg-white/5 border-white/10 hover:border-white/30"
                                             )}
                                         >
-                                            <div className={cn(
-                                                "w-12 h-12 rounded-xl flex items-center justify-center text-xl",
-                                                isSelected ? "bg-emerald-500 text-white" : "bg-white/10"
-                                            )}>
-                                                {ADDON_ICONS[addon.id] || addon.icon}
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="font-bold">{addon.name}</h3>
-                                                <p className="text-xs text-stone-400">{addon.description}</p>
-                                            </div>
-                                            <div className="text-right">
-                                                <div className={cn("font-bold", isSelected ? "text-emerald-400" : "text-stone-300")}>
-                                                    {priceDisplay}
+                                            <div className="flex items-center gap-4">
+                                                <div className={cn(
+                                                    "w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0",
+                                                    isSelected ? "bg-emerald-500 text-white" : "bg-white/10"
+                                                )}>
+                                                    {ADDON_ICONS[addon.id] || addon.icon}
                                                 </div>
-                                            </div>
-                                            <div className={cn(
-                                                "w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all",
-                                                isSelected ? "bg-emerald-500 border-emerald-500" : "border-white/30"
-                                            )}>
-                                                {isSelected && <Check size={14} />}
+                                                <div className="flex-1 min-w-0">
+                                                    <h3 className="font-bold truncate">{addon.name}</h3>
+                                                    <p className="text-xs text-stone-400 line-clamp-1">{addon.description}</p>
+
+                                                    {addon.id === 'custom-cake' && isSelected && (
+                                                        <Link
+                                                            href="/studio"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className="inline-flex items-center gap-1 mt-2 text-xs font-bold bg-amber-500 text-stone-900 px-3 py-1.5 rounded-full hover:bg-amber-400 transition-colors"
+                                                        >
+                                                            <Sparkles size={12} />
+                                                            Diseñar Torta
+                                                        </Link>
+                                                    )}
+                                                </div>
+                                                <div className="text-right shrink-0">
+                                                    <div className={cn("font-bold", isSelected ? "text-emerald-400" : "text-stone-300")}>
+                                                        {priceDisplay}
+                                                    </div>
+                                                </div>
+                                                <div className={cn(
+                                                    "w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all shrink-0",
+                                                    isSelected ? "bg-emerald-500 border-emerald-500" : "border-white/30"
+                                                )}>
+                                                    {isSelected && <Check size={14} />}
+                                                </div>
                                             </div>
                                         </motion.div>
                                     );
