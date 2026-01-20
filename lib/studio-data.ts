@@ -22,7 +22,7 @@ export const PIZZA_BASES = [
 
 export const PIZZA_SAUCES = [
     { id: 'tomato', label: 'Salsa de Tomate', price: 0, color: 'bg-red-600', image: '/images/studio/sauce-tomato.png' },
-    { id: 'spicy', label: 'Salsa Picante', price: 20, color: 'bg-red-800', image: '/images/studio/sauce-tomato.png' }, // Reusing tomato for spicy but maybe we can tint it later or user accepts similar look
+    { id: 'spicy', label: 'Salsa Picante', price: 20, color: 'bg-red-800', image: '/images/studio/sauce-spicy.png' },
     { id: 'bbq', label: 'Barbacoa', price: 40, color: 'bg-amber-900', image: '/images/studio/sauce-bbq.png' },
     { id: 'none', label: 'Sin Salsa (Bianca)', price: 0, color: 'transparent', image: '/images/studio/pizza-dough-traditional.png' }, // Valid image for thumbnail
 ];

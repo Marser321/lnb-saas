@@ -106,13 +106,14 @@ export default function PizzaStudioPage() {
                         }}
                         transition={{ duration: 0.5, type: 'spring' }}
                     >
-                        {/* Base Image */}
-                        <div className="absolute inset-0 rounded-full shadow-2xl overflow-hidden pointer-events-none">
+                        {/* Base Image Layer */}
+                        <div className="absolute inset-0 rounded-full shadow-2xl overflow-hidden">
                             <Image
-                                src={base.image}
+                                src={base.image} // This now points to high-res raw dough images
                                 alt="Pizza Base"
                                 fill
                                 className="object-cover"
+                                priority
                             />
                         </div>
 
@@ -120,15 +121,20 @@ export default function PizzaStudioPage() {
                         {sauce.id !== 'none' && (
                             <motion.div
                                 initial={{ opacity: 0 }}
-                                animate={{ opacity: 0.9 }}
-                                className="absolute inset-2 rounded-full overflow-hidden pointer-events-none"
+                                animate={{ opacity: 1 }}
+                                className="absolute inset-0 rounded-full overflow-hidden pointer-events-none"
                             >
-                                <Image src={sauce.image} alt={sauce.label} fill className="object-cover opacity-90 mix-blend-multiply" />
+                                <Image
+                                    src={sauce.image}
+                                    alt={sauce.label}
+                                    fill
+                                    className="object-cover opacity-90 mix-blend-multiply p-4" // Added padding to simulate crust edge
+                                />
                             </motion.div>
                         )}
 
                         {/* Toppings Layer */}
-                        <div className="absolute inset-4 pointer-events-none">
+                        <div className="absolute inset-4 pointer-events-none z-10">
                             <AnimatePresence>
                                 {toppings.map((t, i) => (
                                     <motion.div
@@ -139,18 +145,17 @@ export default function PizzaStudioPage() {
                                         transition={{ delay: i * 0.05 }}
                                         className="absolute w-12 h-12"
                                         style={{
-                                            // Pseudo-random positioning based on index
-                                            top: `${15 + (i * 17) % 60}%`,
-                                            left: `${15 + (i * 23) % 60}%`,
+                                            // Improved random positioning logic
+                                            top: `${15 + (i * 17) % 65}%`,
+                                            left: `${15 + (i * 23) % 65}%`,
                                             transform: `rotate(${i * 45}deg)`
                                         }}
                                     >
-                                        <Image src={t.image} alt={t.label} width={48} height={48} className="object-cover rounded-full shadow-sm drop-shadow-md" />
+                                        <Image src={t.image} alt={t.label} width={48} height={48} className="object-contain drop-shadow-md" />
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
                         </div>
-
                         {/* Highlight/Shine */}
                         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/10 to-white/10 pointer-events-none" />
                     </motion.div>
@@ -191,161 +196,170 @@ export default function PizzaStudioPage() {
                                 ))}
                             </div>
                         </motion.div>
-                    )}
+                    )
+                    }
 
-                    {step === 'base' && (
-                        <motion.div
-                            key="base"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className="space-y-4"
-                        >
-                            <h2 className="text-2xl font-bold text-center mb-6">Elige el tipo de masa</h2>
-                            <div className="grid gap-3">
-                                {PIZZA_BASES.map(b => (
-                                    <button
-                                        key={b.id}
-                                        onClick={() => setBase(b)}
-                                        className={cn(
-                                            "flex items-center justify-between p-4 rounded-xl border-2 transition-all overflow-hidden relative",
-                                            base.id === b.id ? "border-red-500 bg-red-50" : "border-stone-200 bg-white hover:border-stone-300"
-                                        )}
-                                    >
-                                        <div className="flex items-center gap-4 relative z-10">
-                                            <div className="w-16 h-16 rounded-full relative overflow-hidden bg-stone-200">
-                                                <Image src={b.image} alt={b.label} fill className="object-cover" />
-                                            </div>
-                                            <div className="text-left">
-                                                <div className="font-bold text-stone-900 flex items-center gap-2">
-                                                    {b.label}
-                                                    {b.price > 0 && <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">+${b.price}</span>}
-                                                </div>
-                                                <div className="text-xs text-stone-500">{b.description}</div>
-                                            </div>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {step === 'sauce' && (
-                        <motion.div
-                            key="sauce"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className="space-y-4"
-                        >
-                            <h2 className="text-2xl font-bold text-center mb-6">Elige la salsa</h2>
-                            <div className="grid grid-cols-2 gap-3">
-                                {PIZZA_SAUCES.map(s => (
-                                    <button
-                                        key={s.id}
-                                        onClick={() => setSauce(s)}
-                                        className={cn(
-                                            "flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all gap-3 relative overflow-hidden",
-                                            sauce.id === s.id ? "border-red-500 bg-red-50" : "border-stone-200 bg-white hover:border-stone-300"
-                                        )}
-                                    >
-                                        <div className="w-20 h-20 rounded-full shadow-inner relative overflow-hidden">
-                                            <Image src={s.image} alt={s.label} fill className="object-cover" />
-                                        </div>
-                                        <div className="text-center relative z-10">
-                                            <div className="font-bold text-stone-900 text-sm">{s.label}</div>
-                                            {s.price > 0 && <div className="text-xs text-red-500 font-bold mt-1">+${s.price}</div>}
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {step === 'toppings' && (
-                        <motion.div
-                            key="toppings"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className="space-y-4"
-                        >
-                            <h2 className="text-2xl font-bold text-center mb-6">Agrega tus ingredientes</h2>
-                            <div className="grid grid-cols-3 gap-3">
-                                {PIZZA_TOPPINGS.map(t => {
-                                    const isSelected = toppings.some(top => top.id === t.id);
-                                    return (
+                    {
+                        step === 'base' && (
+                            <motion.div
+                                key="base"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="space-y-4"
+                            >
+                                <h2 className="text-2xl font-bold text-center mb-6">Elige el tipo de masa</h2>
+                                <div className="grid gap-3">
+                                    {PIZZA_BASES.map(b => (
                                         <button
-                                            key={t.id}
-                                            onClick={() => toggleTopping(t)}
+                                            key={b.id}
+                                            onClick={() => setBase(b)}
                                             className={cn(
-                                                "flex flex-col items-center p-3 rounded-xl border-2 transition-all relative overflow-hidden",
-                                                isSelected ? "border-red-500 bg-red-50" : "border-stone-200 bg-white"
+                                                "flex items-center justify-between p-4 rounded-xl border-2 transition-all overflow-hidden relative",
+                                                base.id === b.id ? "border-red-500 bg-red-50" : "border-stone-200 bg-white hover:border-stone-300"
                                             )}
                                         >
-                                            {isSelected && (
-                                                <div className="absolute top-2 right-2 text-red-500 z-20">
-                                                    <Check size={14} />
+                                            <div className="flex items-center gap-4 relative z-10">
+                                                <div className="w-16 h-16 rounded-full relative overflow-hidden bg-stone-200">
+                                                    <Image src={b.image} alt={b.label} fill className="object-cover" />
                                                 </div>
-                                            )}
-                                            <div className="w-16 h-16 rounded-full relative overflow-hidden bg-stone-100 mb-2">
-                                                <Image src={t.image} alt={t.label} fill className="object-cover" />
+                                                <div className="text-left">
+                                                    <div className="font-bold text-stone-900 flex items-center gap-2">
+                                                        {b.label}
+                                                        {b.price > 0 && <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">+${b.price}</span>}
+                                                    </div>
+                                                    <div className="text-xs text-stone-500">{b.description}</div>
+                                                </div>
                                             </div>
-                                            <div className="text-xs font-bold text-center leading-tight relative z-10">{t.label}</div>
-                                            <div className="text-[10px] text-stone-500 mt-1 relative z-10">${t.price}</div>
                                         </button>
-                                    );
-                                })}
-                            </div>
-                        </motion.div>
-                    )}
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )
+                    }
 
-                    {step === 'summary' && (
-                        <motion.div
-                            key="summary"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            className="bg-white rounded-3xl p-6 shadow-xl border border-stone-100"
-                        >
-                            <h2 className="text-2xl font-bold text-center mb-6 flex items-center justify-center gap-2">
-                                <Flame className="text-red-500" /> ¡Lista para el horno!
-                            </h2>
+                    {
+                        step === 'sauce' && (
+                            <motion.div
+                                key="sauce"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="space-y-4"
+                            >
+                                <h2 className="text-2xl font-bold text-center mb-6">Elige la salsa</h2>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {PIZZA_SAUCES.map(s => (
+                                        <button
+                                            key={s.id}
+                                            onClick={() => setSauce(s)}
+                                            className={cn(
+                                                "flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all gap-3 relative overflow-hidden",
+                                                sauce.id === s.id ? "border-red-500 bg-red-50" : "border-stone-200 bg-white hover:border-stone-300"
+                                            )}
+                                        >
+                                            <div className="w-20 h-20 rounded-full shadow-inner relative overflow-hidden">
+                                                <Image src={s.image} alt={s.label} fill className="object-cover" />
+                                            </div>
+                                            <div className="text-center relative z-10">
+                                                <div className="font-bold text-stone-900 text-sm">{s.label}</div>
+                                                {s.price > 0 && <div className="text-xs text-red-500 font-bold mt-1">+${s.price}</div>}
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )
+                    }
 
-                            <div className="space-y-4 text-sm mb-6 border-b border-stone-100 pb-6">
-                                <div className="flex justify-between">
-                                    <span className="text-stone-500">Tamaño</span>
-                                    <span className="font-bold">{size.label}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-stone-500">Masa</span>
-                                    <span className="font-bold">{base.label}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-stone-500">Salsa</span>
-                                    <span className="font-bold">{sauce.label}</span>
-                                </div>
-                                <div className="pt-2">
-                                    <span className="text-stone-500 block mb-2">Ingredientes ({toppings.length})</span>
-                                    <div className="flex flex-wrap gap-1">
-                                        {toppings.map(t => (
-                                            <span key={t.id} className="bg-stone-100 px-2 py-1 rounded text-xs font-medium text-stone-700 flex items-center gap-1">
-                                                <div className="w-4 h-4 rounded-full relative overflow-hidden">
+                    {
+                        step === 'toppings' && (
+                            <motion.div
+                                key="toppings"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="space-y-4"
+                            >
+                                <h2 className="text-2xl font-bold text-center mb-6">Agrega tus ingredientes</h2>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {PIZZA_TOPPINGS.map(t => {
+                                        const isSelected = toppings.some(top => top.id === t.id);
+                                        return (
+                                            <button
+                                                key={t.id}
+                                                onClick={() => toggleTopping(t)}
+                                                className={cn(
+                                                    "flex flex-col items-center p-3 rounded-xl border-2 transition-all relative overflow-hidden",
+                                                    isSelected ? "border-red-500 bg-red-50" : "border-stone-200 bg-white"
+                                                )}
+                                            >
+                                                {isSelected && (
+                                                    <div className="absolute top-2 right-2 text-red-500 z-20">
+                                                        <Check size={14} />
+                                                    </div>
+                                                )}
+                                                <div className="w-16 h-16 rounded-full relative overflow-hidden bg-stone-100 mb-2">
                                                     <Image src={t.image} alt={t.label} fill className="object-cover" />
                                                 </div>
-                                                {t.label}
-                                            </span>
-                                        ))}
+                                                <div className="text-xs font-bold text-center leading-tight relative z-10">{t.label}</div>
+                                                <div className="text-[10px] text-stone-500 mt-1 relative z-10">${t.price}</div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </motion.div>
+                        )
+                    }
+
+                    {
+                        step === 'summary' && (
+                            <motion.div
+                                key="summary"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                className="bg-white rounded-3xl p-6 shadow-xl border border-stone-100"
+                            >
+                                <h2 className="text-2xl font-bold text-center mb-6 flex items-center justify-center gap-2">
+                                    <Flame className="text-red-500" /> ¡Lista para el horno!
+                                </h2>
+
+                                <div className="space-y-4 text-sm mb-6 border-b border-stone-100 pb-6">
+                                    <div className="flex justify-between">
+                                        <span className="text-stone-500">Tamaño</span>
+                                        <span className="font-bold">{size.label}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-stone-500">Masa</span>
+                                        <span className="font-bold">{base.label}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-stone-500">Salsa</span>
+                                        <span className="font-bold">{sauce.label}</span>
+                                    </div>
+                                    <div className="pt-2">
+                                        <span className="text-stone-500 block mb-2">Ingredientes ({toppings.length})</span>
+                                        <div className="flex flex-wrap gap-1">
+                                            {toppings.map(t => (
+                                                <span key={t.id} className="bg-stone-100 px-2 py-1 rounded text-xs font-medium text-stone-700 flex items-center gap-1">
+                                                    <div className="w-4 h-4 rounded-full relative overflow-hidden">
+                                                        <Image src={t.image} alt={t.label} fill className="object-cover" />
+                                                    </div>
+                                                    {t.label}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="flex justify-between items-end">
-                                <span className="text-stone-500 font-medium">Total</span>
-                                <span className="text-3xl font-bold text-stone-900">${totalPrice}</span>
-                            </div>
-                        </motion.div>
-                    )}
+                                <div className="flex justify-between items-end">
+                                    <span className="text-stone-500 font-medium">Total</span>
+                                    <span className="text-3xl font-bold text-stone-900">${totalPrice}</span>
+                                </div>
+                            </motion.div>
+                        )
+                    }
                 </AnimatePresence>
 
             </main>
