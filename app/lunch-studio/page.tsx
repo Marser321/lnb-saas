@@ -1,16 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Users, Check, ChevronRight, Briefcase, Minus, Plus, ShoppingBag } from "lucide-react";
-import { LUNCH_TIERS, LUNCH_ADDONS, LunchTier } from "@/lib/lunch-data";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+    Users, Check, Minus, Plus, ShoppingBag, ArrowLeft, ArrowRight,
+    Sparkles, Coffee, Cake, Leaf, Package, Truck, Wine, Snowflake, ChevronRight
+} from "lucide-react";
+import {
+    OCCASIONS, LUNCH_TIERS, LUNCH_ADDONS, Occasion, LunchTier, LunchAddon,
+    getTiersForOccasion, calculateTotal
+} from "@/lib/lunch-data";
+import { cn } from "@/lib/utils";
 import { useCartStore } from "@/lib/cart-store";
-import { BrandLogo } from "@/components/brand-logo";
+
+const ATTENDEE_PRESETS = [5, 10, 20, 50];
+
+const ADDON_ICONS: Record<string, React.ReactNode> = {
+    'coffee-service': <Coffee size={20} />,
+    'premium-drinks': <Wine size={20} />,
+    'ice-bar': <Snowflake size={20} />,
+    'sweet-extra': <Cake size={20} />,
+    'custom-cake': <Cake size={20} />,
+    'gluten-free': <Leaf size={20} />,
+    'eco-packaging': <Package size={20} />,
+    'express-delivery': <Truck size={20} />,
+};
 
 export default function LunchStudioPage() {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(0);
+    const [selectedOccasion, setSelectedOccasion] = useState<Occasion | null>(null);
     const [attendees, setAttendees] = useState(10);
     const [selectedTier, setSelectedTier] = useState<LunchTier | null>(null);
     const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
@@ -18,27 +38,31 @@ export default function LunchStudioPage() {
     const addItem = useCartStore((state) => state.addItem);
     const setCartOpen = useCartStore((state) => state.setCartOpen);
 
-    // Calculate Totals
-    const baseTotal = selectedTier ? selectedTier.basePrice * attendees : 0;
-    const addonsTotal = selectedAddons.reduce((acc, addonId) => {
-        const addon = LUNCH_ADDONS.find(a => a.id === addonId);
-        return acc + (addon ? addon.pricePerPerson * attendees : 0);
-    }, 0);
-    const total = baseTotal + addonsTotal;
-    const pricePerPerson = attendees > 0 ? total / attendees : 0;
+    // Get tiers filtered by occasion
+    const availableTiers = selectedOccasion
+        ? getTiersForOccasion(selectedOccasion.id)
+        : LUNCH_TIERS;
+
+    // Calculate totals
+    const { base, addons: addonsTotal, total, perPerson } = calculateTotal(
+        selectedTier,
+        attendees,
+        selectedAddons
+    );
 
     const handleAddToCart = () => {
-        if (!selectedTier) return;
+        if (!selectedTier || !selectedOccasion) return;
 
-        const tierName = selectedTier.name;
-        const addonsNames = selectedAddons.map(id => LUNCH_ADDONS.find(a => a.id === id)?.name).join(", ");
+        const addonNames = selectedAddons
+            .map(id => LUNCH_ADDONS.find(a => a.id === id)?.name)
+            .filter(Boolean)
+            .join(", ");
 
-        // Construct a "Product" compatible object
         const customProduct = {
             id: `catering-${Date.now()}`,
-            name: `Catering ${tierName}`,
-            description: `${attendees} personas. ${addonsNames ? `Incluye: ${addonsNames}` : ''}`,
-            price: total, // Total price for the bundle
+            name: `Catering ${selectedTier.name}`,
+            description: `${selectedOccasion.emoji} ${selectedOccasion.name} · ${attendees} personas${addonNames ? ` · Extras: ${addonNames}` : ''}`,
+            price: total,
             category: 'lunch' as const,
             image: selectedTier.image,
             isPopular: false
@@ -48,258 +72,433 @@ export default function LunchStudioPage() {
         setCartOpen(true);
     };
 
-    return (
-        <div className="min-h-screen bg-stone-50 text-stone-900 pb-32">
+    const goNext = () => setStep(s => Math.min(s + 1, 4));
+    const goBack = () => setStep(s => Math.max(s - 1, 0));
 
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 text-white">
             {/* Header */}
-            <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-stone-200">
-                <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
-                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-                        <BrandLogo variant="color" />
-                        <span className="font-bold text-lg hidden sm:block">Lunch Studio</span>
-                    </div>
-                    <div className="text-sm font-medium text-stone-500">
-                        Catering Inteligente
+            <header className="sticky top-0 z-50 bg-stone-900/80 backdrop-blur-xl border-b border-white/10">
+                <div className="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+                    <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-lg font-bold text-stone-900">
+                            LNB
+                        </div>
+                        <div>
+                            <h1 className="font-bold text-lg leading-none">Lunch Studio</h1>
+                            <p className="text-xs text-stone-400">Catering Inteligente</p>
+                        </div>
+                    </Link>
+
+                    {/* Live Total */}
+                    <div className="text-right">
+                        <p className="text-xs text-stone-400">Total estimado</p>
+                        <p className="text-2xl font-bold text-amber-400">${total.toLocaleString()}</p>
                     </div>
                 </div>
             </header>
 
-            <main className="max-w-4xl mx-auto px-4 mt-8">
-
-                {/* Progress Bar */}
-                <div className="flex justify-between mb-8 relative">
-                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-stone-200 -z-10" />
-                    {[1, 2, 3].map((s) => (
-                        <div key={s} className={cn(
-                            "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors",
-                            step >= s ? "bg-stone-900 text-white" : "bg-stone-200 text-stone-400"
-                        )}>
-                            {s}
+            {/* Progress Steps */}
+            <div className="max-w-5xl mx-auto px-4 py-6">
+                <div className="flex items-center justify-between relative">
+                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2" />
+                    {['Ocasión', 'Personas', 'Estilo', 'Extras', 'Confirmar'].map((label, i) => (
+                        <div key={i} className="relative z-10 flex flex-col items-center">
+                            <div
+                                className={cn(
+                                    "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all",
+                                    step >= i
+                                        ? "bg-gradient-to-br from-amber-400 to-orange-500 text-stone-900"
+                                        : "bg-stone-700 text-stone-400"
+                                )}
+                            >
+                                {step > i ? <Check size={14} /> : i + 1}
+                            </div>
+                            <span className={cn(
+                                "text-[10px] mt-1 font-medium hidden sm:block",
+                                step >= i ? "text-amber-300" : "text-stone-500"
+                            )}>
+                                {label}
+                            </span>
                         </div>
                     ))}
                 </div>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8">
-
-                    {/* Left Column: Flow */}
-                    <AnimatePresence mode="wait">
+            {/* Main Content */}
+            <main className="max-w-5xl mx-auto px-4 pb-32">
+                <AnimatePresence mode="wait">
+                    {/* STEP 0: Occasion Selector */}
+                    {step === 0 && (
                         <motion.div
-                            key={step}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
+                            key="step-0"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
                             className="space-y-8"
                         >
-                            {/* STEP 1: Attendees */}
-                            {step === 1 && (
-                                <div className="bg-white p-8 rounded-3xl shadow-sm border border-stone-100 text-center space-y-8">
-                                    <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <Users size={32} />
-                                    </div>
-                                    <h2 className="text-3xl font-bold font-serif">¿Cuántas personas son?</h2>
-                                    <p className="text-stone-500 text-lg">Ajusta la cantidad de invitados para tu evento.</p>
+                            <div className="text-center">
+                                <h2 className="text-3xl md:text-4xl font-bold mb-2">¿Qué vas a celebrar?</h2>
+                                <p className="text-stone-400">Elegí el tipo de evento para personalizar tu experiencia</p>
+                            </div>
 
-                                    <div className="flex items-center justify-center gap-8">
-                                        <button
-                                            onClick={() => setAttendees(Math.max(5, attendees - 1))}
-                                            className="w-12 h-12 rounded-full border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition"
-                                        >
-                                            <Minus size={20} />
-                                        </button>
-                                        <div className="text-6xl font-bold w-32 text-center text-stone-800">
-                                            {attendees}
-                                        </div>
-                                        <button
-                                            onClick={() => setAttendees(attendees + 1)}
-                                            className="w-12 h-12 rounded-full bg-stone-900 text-white flex items-center justify-center hover:bg-stone-800 transition shadow-lg hover:scale-110"
-                                        >
-                                            <Plus size={20} />
-                                        </button>
-                                    </div>
-
-                                    <button
-                                        onClick={() => setStep(2)}
-                                        className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-lg hover:shadow-xl hover:scale-[1.02] transition-all transform duration-300"
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {OCCASIONS.map((occasion) => (
+                                    <motion.div
+                                        key={occasion.id}
+                                        whileHover={{ scale: 1.03 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => {
+                                            setSelectedOccasion(occasion);
+                                            setSelectedTier(null);
+                                        }}
+                                        className={cn(
+                                            "relative overflow-hidden rounded-2xl p-6 cursor-pointer transition-all border-2",
+                                            selectedOccasion?.id === occasion.id
+                                                ? "border-amber-400 shadow-xl shadow-amber-500/20"
+                                                : "border-white/10 hover:border-white/30"
+                                        )}
                                     >
-                                        Siguiente: Elegir Estilo
+                                        <div className={cn(
+                                            "absolute inset-0 bg-gradient-to-br opacity-20",
+                                            occasion.gradient
+                                        )} />
+                                        <div className="relative z-10 text-center">
+                                            <div className="text-5xl mb-3">{occasion.emoji}</div>
+                                            <h3 className="font-bold text-lg">{occasion.name}</h3>
+                                            <p className="text-xs text-stone-400 mt-1 line-clamp-2">{occasion.description}</p>
+                                        </div>
+                                        {selectedOccasion?.id === occasion.id && (
+                                            <div className="absolute top-2 right-2 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center">
+                                                <Check size={14} className="text-stone-900" />
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={goNext}
+                                disabled={!selectedOccasion}
+                                className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-900 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
+                            >
+                                Continuar <ArrowRight size={20} />
+                            </button>
+                        </motion.div>
+                    )}
+
+                    {/* STEP 1: Attendees */}
+                    {step === 1 && (
+                        <motion.div
+                            key="step-1"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="space-y-8"
+                        >
+                            <div className="text-center">
+                                <div className="text-5xl mb-4">{selectedOccasion?.emoji}</div>
+                                <h2 className="text-3xl md:text-4xl font-bold mb-2">¿Cuántos son?</h2>
+                                <p className="text-stone-400">Ajustá la cantidad de invitados</p>
+                            </div>
+
+                            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+                                {/* Presets */}
+                                <div className="flex justify-center gap-3 mb-8">
+                                    {ATTENDEE_PRESETS.map((preset) => (
+                                        <button
+                                            key={preset}
+                                            onClick={() => setAttendees(preset)}
+                                            className={cn(
+                                                "px-5 py-2 rounded-full font-bold text-sm transition-all",
+                                                attendees === preset
+                                                    ? "bg-amber-500 text-stone-900"
+                                                    : "bg-white/10 hover:bg-white/20 text-white"
+                                            )}
+                                        >
+                                            {preset}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Counter */}
+                                <div className="flex items-center justify-center gap-8">
+                                    <button
+                                        onClick={() => setAttendees(Math.max(2, attendees - 1))}
+                                        className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition"
+                                    >
+                                        <Minus size={24} />
+                                    </button>
+                                    <div className="text-center">
+                                        <div className="text-7xl font-bold text-amber-400">{attendees}</div>
+                                        <p className="text-stone-400 text-sm">personas</p>
+                                    </div>
+                                    <button
+                                        onClick={() => setAttendees(attendees + 1)}
+                                        className="w-14 h-14 rounded-full bg-amber-500 text-stone-900 flex items-center justify-center hover:bg-amber-400 transition shadow-lg shadow-amber-500/30"
+                                    >
+                                        <Plus size={24} />
                                     </button>
                                 </div>
-                            )}
+                            </div>
 
-                            {/* STEP 2: Tier Selection */}
-                            {step === 2 && (
-                                <div className="space-y-6">
-                                    <div className="text-center mb-8">
-                                        <h2 className="text-3xl font-bold font-serif mb-2">Elige el estilo</h2>
-                                        <p className="text-stone-500">¿Qué tipo de experiencia buscas?</p>
-                                    </div>
-
-                                    <div className="grid gap-4">
-                                        {LUNCH_TIERS.map((tier) => (
-                                            <div
-                                                key={tier.id}
-                                                onClick={() => setSelectedTier(tier)}
-                                                className={cn(
-                                                    "border-2 rounded-2xl p-4 cursor-pointer transition-all relative overflow-hidden group",
-                                                    selectedTier?.id === tier.id
-                                                        ? `${tier.color} border-current shadow-xl scale-[1.02]`
-                                                        : "bg-white border-stone-100 hover:border-stone-200 hover:shadow-md"
-                                                )}
-                                            >
-                                                <div className="flex gap-4 items-center">
-                                                    <div className="w-24 h-24 rounded-xl relative overflow-hidden shrink-0">
-                                                        <Image src={tier.image} alt={tier.name} fill className="object-cover" />
-                                                    </div>
-                                                    <div className="flex-1">
-                                                        <div className="flex justify-between items-start mb-1">
-                                                            <h3 className="font-bold text-lg">{tier.name}</h3>
-                                                            <div className="text-sm font-bold opacity-80">${tier.basePrice} <span className="text-[10px] font-normal">/pers</span></div>
-                                                        </div>
-                                                        <p className="text-sm opacity-70 mb-3">{tier.description}</p>
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {tier.features.slice(0, 2).map((f, i) => (
-                                                                <span key={i} className="text-[10px] bg-white/50 px-2 py-1 rounded-full backdrop-blur-sm border border-black/5">
-                                                                    {f}
-                                                                </span>
-                                                            ))}
-                                                            {tier.features.length > 2 && <span className="text-[10px] opacity-60">+{tier.features.length - 2} más</span>}
-                                                        </div>
-                                                    </div>
-                                                    <div className={cn(
-                                                        "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all",
-                                                        selectedTier?.id === tier.id ? "bg-current border-current" : "border-stone-300"
-                                                    )}>
-                                                        {selectedTier?.id === tier.id && <Check size={14} className="text-white mix-blend-difference" />}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="flex gap-4 mt-8">
-                                        <button
-                                            onClick={() => setStep(1)}
-                                            className="px-6 py-4 rounded-xl font-bold border border-stone-200 hover:bg-stone-50 transition"
-                                        >
-                                            Atrás
-                                        </button>
-                                        <button
-                                            onClick={() => setStep(3)}
-                                            disabled={!selectedTier}
-                                            className="flex-1 py-4 bg-stone-900 text-white rounded-xl font-bold hover:bg-stone-800 disabled:opacity-50 transition"
-                                        >
-                                            Siguiente: Personalizar
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* STEP 3: Add-ons */}
-                            {step === 3 && (
-                                <div className="space-y-6">
-                                    <div className="text-center mb-8">
-                                        <h2 className="text-3xl font-bold font-serif mb-2">Extras</h2>
-                                        <p className="text-stone-500">Agrega el toque final a tu catering.</p>
-                                    </div>
-
-                                    <div className="grid gap-4">
-                                        {LUNCH_ADDONS.map((addon) => {
-                                            const isSelected = selectedAddons.includes(addon.id);
-                                            return (
-                                                <div
-                                                    key={addon.id}
-                                                    onClick={() => {
-                                                        setSelectedAddons(prev =>
-                                                            isSelected ? prev.filter(id => id !== addon.id) : [...prev, addon.id]
-                                                        );
-                                                    }}
-                                                    className={cn(
-                                                        "bg-white border rounded-xl p-4 cursor-pointer transition-all flex items-center gap-4 hover:shadow-md",
-                                                        isSelected ? "border-emerald-500 ring-1 ring-emerald-500 bg-emerald-50" : "border-stone-100"
-                                                    )}
-                                                >
-                                                    <div className="text-2xl">{addon.icon}</div>
-                                                    <div className="flex-1">
-                                                        <h3 className="font-bold text-stone-900">{addon.name}</h3>
-                                                        <p className="text-xs text-stone-500">{addon.description}</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <div className="font-bold text-stone-900">+${addon.pricePerPerson}</div>
-                                                        <div className="text-[10px] text-stone-400">/pers</div>
-                                                    </div>
-                                                    <div className={cn(
-                                                        "w-6 h-6 rounded border flex items-center justify-center transition-colors",
-                                                        isSelected ? "bg-emerald-500 border-emerald-500 text-white" : "border-stone-300 bg-white"
-                                                    )}>
-                                                        {isSelected && <Check size={14} />}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-
-                                    <div className="flex gap-4 mt-8">
-                                        <button
-                                            onClick={() => setStep(2)}
-                                            className="px-6 py-4 rounded-xl font-bold border border-stone-200 hover:bg-stone-50 transition"
-                                        >
-                                            Atrás
-                                        </button>
-                                        <button
-                                            onClick={handleAddToCart}
-                                            className="flex-1 py-4 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition shadow-lg shadow-emerald-200 flex items-center justify-center gap-2"
-                                        >
-                                            <ShoppingBag size={20} />
-                                            Agregar al Pedido
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
+                            <div className="flex gap-4">
+                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold border border-white/20 hover:bg-white/5 transition">
+                                    <ArrowLeft size={20} />
+                                </button>
+                                <button
+                                    onClick={goNext}
+                                    className="flex-1 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-900 rounded-2xl font-bold text-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
+                                >
+                                    Siguiente: Elegir Estilo <ArrowRight size={20} />
+                                </button>
+                            </div>
                         </motion.div>
-                    </AnimatePresence>
+                    )}
 
-                    {/* Right Column: Sticky Summary */}
-                    <div className="hidden md:block">
-                        <div className="sticky top-28 bg-white rounded-2xl p-6 shadow-lg border border-stone-100">
-                            <h3 className="font-bold text-stone-400 text-xs uppercase tracking-wider mb-4">Resumen de Cotización</h3>
+                    {/* STEP 2: Tier Selection */}
+                    {step === 2 && (
+                        <motion.div
+                            key="step-2"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="space-y-8"
+                        >
+                            <div className="text-center">
+                                <h2 className="text-3xl md:text-4xl font-bold mb-2">Elegí el estilo</h2>
+                                <p className="text-stone-400">Opciones perfectas para <span className="text-amber-400">{selectedOccasion?.name}</span></p>
+                            </div>
 
-                            <div className="space-y-4 mb-6">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-stone-600">Invitados</span>
-                                    <span className="font-bold text-stone-900">{attendees}</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-stone-600">Estilo</span>
-                                    <span className="font-bold text-stone-900 truncate ml-4">
-                                        {selectedTier ? selectedTier.name : '-'}
-                                    </span>
-                                </div>
-                                {selectedAddons.length > 0 && (
-                                    <div className="border-t border-dashed border-stone-200 pt-2 mt-2">
-                                        <div className="text-xs text-stone-400 mb-1">Extras seleccionados:</div>
-                                        {selectedAddons.map(id => (
-                                            <div key={id} className="text-xs text-stone-600 flex justify-between">
-                                                <span>{LUNCH_ADDONS.find(a => a.id === id)?.name}</span>
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                {availableTiers.map((tier) => (
+                                    <motion.div
+                                        key={tier.id}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => setSelectedTier(tier)}
+                                        className={cn(
+                                            "relative overflow-hidden rounded-2xl cursor-pointer transition-all border-2",
+                                            selectedTier?.id === tier.id
+                                                ? "border-amber-400 ring-2 ring-amber-400/50"
+                                                : "border-white/10 hover:border-white/30"
+                                        )}
+                                    >
+                                        <div className="relative h-40">
+                                            <Image src={tier.image} alt={tier.name} fill className="object-cover" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/50 to-transparent" />
+                                            <div className="absolute top-3 left-3 text-2xl">{tier.icon}</div>
+                                            <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold">
+                                                ${tier.basePrice}<span className="text-xs font-normal text-stone-300">/pers</span>
                                             </div>
+                                        </div>
+                                        <div className={cn("p-4 bg-gradient-to-br", tier.bgGradient, tier.id === 'executive' ? 'text-white' : tier.color)}>
+                                            <h3 className="font-bold text-lg">{tier.name}</h3>
+                                            <p className="text-xs opacity-80 mb-2">{tier.tagline}</p>
+                                            <div className="flex flex-wrap gap-1">
+                                                {tier.features.slice(0, 2).map((f, i) => (
+                                                    <span key={i} className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">
+                                                        {f}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        {selectedTier?.id === tier.id && (
+                                            <div className="absolute top-3 right-3 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center z-10">
+                                                <Check size={14} className="text-stone-900" />
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            <div className="flex gap-4">
+                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold border border-white/20 hover:bg-white/5 transition">
+                                    <ArrowLeft size={20} />
+                                </button>
+                                <button
+                                    onClick={goNext}
+                                    disabled={!selectedTier}
+                                    className="flex-1 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-900 rounded-2xl font-bold text-lg disabled:opacity-50 hover:shadow-xl hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
+                                >
+                                    Siguiente: Personalizar <ArrowRight size={20} />
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* STEP 3: Addons */}
+                    {step === 3 && (
+                        <motion.div
+                            key="step-3"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="space-y-8"
+                        >
+                            <div className="text-center">
+                                <h2 className="text-3xl md:text-4xl font-bold mb-2">Personalizá tu pedido</h2>
+                                <p className="text-stone-400">Agregá extras para una experiencia completa</p>
+                            </div>
+
+                            <div className="grid gap-3 md:grid-cols-2">
+                                {LUNCH_ADDONS.map((addon) => {
+                                    const isSelected = selectedAddons.includes(addon.id);
+                                    const priceDisplay = addon.flatPrice
+                                        ? `+$${addon.flatPrice}`
+                                        : `+$${addon.pricePerPerson}/pers`;
+
+                                    return (
+                                        <motion.div
+                                            key={addon.id}
+                                            whileHover={{ scale: 1.01 }}
+                                            whileTap={{ scale: 0.99 }}
+                                            onClick={() => {
+                                                setSelectedAddons(prev =>
+                                                    isSelected ? prev.filter(id => id !== addon.id) : [...prev, addon.id]
+                                                );
+                                            }}
+                                            className={cn(
+                                                "p-4 rounded-xl cursor-pointer transition-all flex items-center gap-4 border-2",
+                                                isSelected
+                                                    ? "bg-emerald-500/20 border-emerald-400"
+                                                    : "bg-white/5 border-white/10 hover:border-white/30"
+                                            )}
+                                        >
+                                            <div className={cn(
+                                                "w-12 h-12 rounded-xl flex items-center justify-center text-xl",
+                                                isSelected ? "bg-emerald-500 text-white" : "bg-white/10"
+                                            )}>
+                                                {ADDON_ICONS[addon.id] || addon.icon}
+                                            </div>
+                                            <div className="flex-1">
+                                                <h3 className="font-bold">{addon.name}</h3>
+                                                <p className="text-xs text-stone-400">{addon.description}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className={cn("font-bold", isSelected ? "text-emerald-400" : "text-stone-300")}>
+                                                    {priceDisplay}
+                                                </div>
+                                            </div>
+                                            <div className={cn(
+                                                "w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all",
+                                                isSelected ? "bg-emerald-500 border-emerald-500" : "border-white/30"
+                                            )}>
+                                                {isSelected && <Check size={14} />}
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="flex gap-4">
+                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold border border-white/20 hover:bg-white/5 transition">
+                                    <ArrowLeft size={20} />
+                                </button>
+                                <button
+                                    onClick={goNext}
+                                    className="flex-1 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-900 rounded-2xl font-bold text-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
+                                >
+                                    Ver Resumen <ArrowRight size={20} />
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* STEP 4: Summary & Confirm */}
+                    {step === 4 && selectedTier && selectedOccasion && (
+                        <motion.div
+                            key="step-4"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="space-y-8"
+                        >
+                            <div className="text-center">
+                                <Sparkles className="mx-auto text-amber-400 mb-4" size={40} />
+                                <h2 className="text-3xl md:text-4xl font-bold mb-2">¡Tu pedido está listo!</h2>
+                                <p className="text-stone-400">Revisá los detalles y confirmá</p>
+                            </div>
+
+                            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 space-y-6">
+                                {/* Header */}
+                                <div className="flex items-center gap-4">
+                                    <div className="relative w-20 h-20 rounded-2xl overflow-hidden">
+                                        <Image src={selectedTier.image} alt={selectedTier.name} fill className="object-cover" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="text-2xl mb-1">{selectedOccasion.emoji} {selectedTier.icon}</div>
+                                        <h3 className="text-xl font-bold">{selectedTier.name}</h3>
+                                        <p className="text-sm text-stone-400">{selectedOccasion.name} · {attendees} personas</p>
+                                    </div>
+                                </div>
+
+                                {/* Features */}
+                                <div className="border-t border-white/10 pt-4">
+                                    <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Incluye</h4>
+                                    <ul className="space-y-2">
+                                        {selectedTier.features.map((f, i) => (
+                                            <li key={i} className="flex items-center gap-2 text-sm">
+                                                <Check size={14} className="text-emerald-400" />
+                                                {f}
+                                            </li>
                                         ))}
+                                    </ul>
+                                </div>
+
+                                {/* Addons */}
+                                {selectedAddons.length > 0 && (
+                                    <div className="border-t border-white/10 pt-4">
+                                        <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Extras</h4>
+                                        <ul className="space-y-2">
+                                            {selectedAddons.map(id => {
+                                                const addon = LUNCH_ADDONS.find(a => a.id === id);
+                                                return addon && (
+                                                    <li key={id} className="flex items-center gap-2 text-sm">
+                                                        <span className="text-lg">{addon.icon}</span>
+                                                        {addon.name}
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
                                     </div>
                                 )}
+
+                                {/* Pricing */}
+                                <div className="border-t border-white/10 pt-4 space-y-2">
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-stone-400">Base ({attendees} × ${selectedTier.basePrice})</span>
+                                        <span>${base.toLocaleString()}</span>
+                                    </div>
+                                    {addonsTotal > 0 && (
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-stone-400">Extras</span>
+                                            <span>${addonsTotal.toLocaleString()}</span>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between text-2xl font-bold pt-2 border-t border-white/10">
+                                        <span>Total</span>
+                                        <span className="text-amber-400">${total.toLocaleString()}</span>
+                                    </div>
+                                    <p className="text-right text-xs text-stone-400">${perPerson.toLocaleString()} por persona</p>
+                                </div>
                             </div>
 
-                            <div className="border-t border-stone-200 pt-4">
-                                <div className="flex justify-between items-end mb-1">
-                                    <span className="text-stone-500 text-sm">Total Estimado</span>
-                                    <span className="text-3xl font-bold text-stone-900">${total.toLocaleString()}</span>
-                                </div>
-                                <div className="text-right text-xs text-stone-400">
-                                    ${pricePerPerson.toLocaleString()} por persona
-                                </div>
+                            <div className="flex gap-4">
+                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold border border-white/20 hover:bg-white/5 transition">
+                                    <ArrowLeft size={20} />
+                                </button>
+                                <button
+                                    onClick={handleAddToCart}
+                                    className="flex-1 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl font-bold text-lg hover:shadow-xl hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2"
+                                >
+                                    <ShoppingBag size={20} />
+                                    Agregar al Pedido
+                                </button>
                             </div>
-                        </div>
-                    </div>
-
-                </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </main>
         </div>
     );
