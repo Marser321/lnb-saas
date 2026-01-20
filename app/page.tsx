@@ -134,7 +134,7 @@ export default function Home() {
                     <Link href="/lunch-studio" className="group md:col-span-2">
                         <div className="relative h-40 md:h-56 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                             <Image
-                                src="https://images.unsplash.com/photo-1554434932-d29ea4b42b62?w=1200&h=600&fit=crop"
+                                src="https://images.unsplash.com/photo-1577308856961-0e972ec79025?w=1200&h=600&fit=crop"
                                 alt="Lunch Studio"
                                 fill
                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
