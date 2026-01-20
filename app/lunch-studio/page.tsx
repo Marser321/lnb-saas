@@ -76,47 +76,48 @@ export default function LunchStudioPage() {
     const goBack = () => setStep(s => Math.max(s - 1, 0));
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 text-white">
+    return (
+        <div className="min-h-screen bg-stone-50 text-stone-900">
             {/* Header */}
-            <header className="sticky top-0 z-50 bg-stone-900/80 backdrop-blur-xl border-b border-white/10">
+            <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-stone-200">
                 <div className="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-lg font-bold text-stone-900">
+                        <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center text-lg font-bold shadow-lg shadow-stone-900/20">
                             LNB
                         </div>
                         <div>
-                            <h1 className="font-bold text-lg leading-none">Lunch Studio</h1>
-                            <p className="text-xs text-stone-400">Catering Inteligente</p>
+                            <h1 className="font-bold text-lg leading-none text-stone-900">Lunch Studio</h1>
+                            <p className="text-xs text-stone-500 font-bold">Catering Inteligente</p>
                         </div>
                     </Link>
 
                     {/* Live Total */}
                     <div className="text-right">
-                        <p className="text-xs text-stone-400">Total estimado</p>
-                        <p className="text-2xl font-bold text-amber-400">${total.toLocaleString()}</p>
+                        <p className="text-xs text-stone-500 font-bold">Total estimado</p>
+                        <p className="text-2xl font-bold text-stone-900">${total.toLocaleString()}</p>
                     </div>
                 </div>
             </header>
 
             {/* Progress Steps */}
-            <div className="max-w-5xl mx-auto px-4 py-6">
+            <div className="max-w-5xl mx-auto px-4 py-8">
                 <div className="flex items-center justify-between relative">
-                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2" />
+                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-stone-200 -translate-y-1/2" />
                     {['Ocasión', 'Personas', 'Estilo', 'Extras', 'Confirmar'].map((label, i) => (
                         <div key={i} className="relative z-10 flex flex-col items-center">
                             <div
                                 className={cn(
-                                    "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all",
+                                    "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all border-2",
                                     step >= i
-                                        ? "bg-gradient-to-br from-amber-400 to-orange-500 text-stone-900"
-                                        : "bg-stone-700 text-stone-400"
+                                        ? "bg-stone-900 text-white border-stone-900 shadow-lg"
+                                        : "bg-white text-stone-300 border-stone-200"
                                 )}
                             >
                                 {step > i ? <Check size={14} /> : i + 1}
                             </div>
                             <span className={cn(
-                                "text-[10px] mt-1 font-medium hidden sm:block",
-                                step >= i ? "text-amber-300" : "text-stone-500"
+                                "text-[10px] mt-2 font-bold uppercase tracking-wider hidden sm:block transition-colors",
+                                step >= i ? "text-stone-900" : "text-stone-400"
                             )}>
                                 {label}
                             </span>
@@ -138,8 +139,8 @@ export default function LunchStudioPage() {
                             className="space-y-8"
                         >
                             <div className="text-center">
-                                <h2 className="text-3xl md:text-4xl font-bold mb-2">¿Qué vas a celebrar?</h2>
-                                <p className="text-stone-400">Elegí el tipo de evento para personalizar tu experiencia</p>
+                                <h2 className="text-3xl md:text-5xl font-bold mb-3 text-stone-900">¿Qué vas a celebrar?</h2>
+                                <p className="text-stone-500 font-medium text-lg">Elegí el tipo de evento para personalizar tu experiencia</p>
                             </div>
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -153,24 +154,24 @@ export default function LunchStudioPage() {
                                             setSelectedTier(null);
                                         }}
                                         className={cn(
-                                            "relative overflow-hidden rounded-2xl p-6 cursor-pointer transition-all border-2",
+                                            "relative overflow-hidden rounded-3xl p-6 cursor-pointer transition-all border-2 bg-white",
                                             selectedOccasion?.id === occasion.id
-                                                ? "border-amber-400 shadow-xl shadow-amber-500/20"
-                                                : "border-white/10 hover:border-white/30"
+                                                ? `border-current shadow-xl ring-1 ${occasion.color}`
+                                                : "border-stone-100 hover:border-stone-200 shadow-sm"
                                         )}
                                     >
                                         <div className={cn(
-                                            "absolute inset-0 bg-gradient-to-br opacity-20",
+                                            "absolute inset-0 bg-gradient-to-br opacity-50",
                                             occasion.gradient
                                         )} />
                                         <div className="relative z-10 text-center">
-                                            <div className="text-5xl mb-3">{occasion.emoji}</div>
-                                            <h3 className="font-bold text-lg">{occasion.name}</h3>
-                                            <p className="text-xs text-stone-400 mt-1 line-clamp-2">{occasion.description}</p>
+                                            <div className="text-6xl mb-4 drop-shadow-sm">{occasion.emoji}</div>
+                                            <h3 className={cn("font-bold text-lg mb-1", selectedOccasion?.id === occasion.id ? "text-stone-900" : "text-stone-700")}>{occasion.name}</h3>
+                                            <p className="text-xs text-stone-500 line-clamp-2 leading-relaxed">{occasion.description}</p>
                                         </div>
                                         {selectedOccasion?.id === occasion.id && (
-                                            <div className="absolute top-2 right-2 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center">
-                                                <Check size={14} className="text-stone-900" />
+                                            <div className={cn("absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center text-white", occasion.color.replace('text-', 'bg-'))}>
+                                                <Check size={14} />
                                             </div>
                                         )}
                                     </motion.div>
@@ -180,7 +181,7 @@ export default function LunchStudioPage() {
                             <button
                                 onClick={goNext}
                                 disabled={!selectedOccasion}
-                                className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-900 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
+                                className="w-full py-4 bg-stone-900 text-white rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-stone-800 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 shadow-xl shadow-stone-900/10"
                             >
                                 Continuar <ArrowRight size={20} />
                             </button>
@@ -197,45 +198,45 @@ export default function LunchStudioPage() {
                             className="space-y-8"
                         >
                             <div className="text-center">
-                                <div className="text-5xl mb-4">{selectedOccasion?.emoji}</div>
-                                <h2 className="text-3xl md:text-4xl font-bold mb-2">¿Cuántos son?</h2>
-                                <p className="text-stone-400">Ajustá la cantidad de invitados</p>
+                                <div className="text-6xl mb-4 animate-bounce">{selectedOccasion?.emoji}</div>
+                                <h2 className="text-3xl md:text-5xl font-bold mb-3 text-stone-900">¿Cuántos son?</h2>
+                                <p className="text-stone-500 font-medium text-lg">Ajustá la cantidad de invitados para el evento <span className={cn("font-bold", selectedOccasion?.color)}>{selectedOccasion?.name}</span></p>
                             </div>
 
-                            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+                            <div className="bg-white rounded-[2rem] p-8 border border-stone-200 shadow-xl shadow-stone-200/50">
                                 {/* Presets */}
-                                <div className="flex justify-center gap-3 mb-8">
+                                <div className="flex flex-wrap justify-center gap-3 mb-10">
                                     {ATTENDEE_PRESETS.map((preset) => (
                                         <button
                                             key={preset}
                                             onClick={() => setAttendees(preset)}
                                             className={cn(
-                                                "px-5 py-2 rounded-full font-bold text-sm transition-all",
+                                                "px-6 py-2.5 rounded-full font-bold text-sm transition-all border-2",
                                                 attendees === preset
-                                                    ? "bg-amber-500 text-stone-900"
-                                                    : "bg-white/10 hover:bg-white/20 text-white"
+                                                    ? "bg-stone-900 text-white border-stone-900 shadow-lg transform scale-105"
+                                                    : "bg-stone-50 text-stone-500 border-stone-100 hover:border-stone-300 hover:bg-white"
                                             )}
                                         >
-                                            {preset}
+                                            {preset} personas
                                         </button>
                                     ))}
                                 </div>
 
                                 {/* Counter */}
-                                <div className="flex items-center justify-center gap-8">
+                                <div className="flex items-center justify-center gap-8 md:gap-12">
                                     <button
                                         onClick={() => setAttendees(Math.max(2, attendees - 1))}
-                                        className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition"
+                                        className="w-16 h-16 rounded-full bg-stone-100 text-stone-600 flex items-center justify-center hover:bg-stone-200 transition-colors shadow-sm"
                                     >
                                         <Minus size={24} />
                                     </button>
-                                    <div className="text-center">
-                                        <div className="text-7xl font-bold text-amber-400">{attendees}</div>
-                                        <p className="text-stone-400 text-sm">personas</p>
+                                    <div className="text-center min-w-[120px]">
+                                        <div className="text-8xl font-bold text-stone-900 tracking-tighter">{attendees}</div>
+                                        <p className="text-stone-400 font-bold uppercase tracking-widest text-xs mt-2">Invitados</p>
                                     </div>
                                     <button
                                         onClick={() => setAttendees(attendees + 1)}
-                                        className="w-14 h-14 rounded-full bg-amber-500 text-stone-900 flex items-center justify-center hover:bg-amber-400 transition shadow-lg shadow-amber-500/30"
+                                        className="w-16 h-16 rounded-full bg-stone-900 text-white flex items-center justify-center hover:bg-stone-800 transition-all shadow-xl shadow-stone-900/20"
                                     >
                                         <Plus size={24} />
                                     </button>
@@ -243,12 +244,12 @@ export default function LunchStudioPage() {
                             </div>
 
                             <div className="flex gap-4">
-                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold border border-white/20 hover:bg-white/5 transition">
+                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold text-stone-500 border-2 border-stone-200 hover:bg-stone-50 hover:text-stone-900 transition-colors">
                                     <ArrowLeft size={20} />
                                 </button>
                                 <button
                                     onClick={goNext}
-                                    className="flex-1 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-900 rounded-2xl font-bold text-lg hover:shadow-xl hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 py-4 bg-stone-900 text-white rounded-2xl font-bold text-lg hover:bg-stone-800 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 shadow-xl shadow-stone-900/10"
                                 >
                                     Siguiente: Elegir Estilo <ArrowRight size={20} />
                                 </button>
@@ -266,46 +267,46 @@ export default function LunchStudioPage() {
                             className="space-y-8"
                         >
                             <div className="text-center">
-                                <h2 className="text-3xl md:text-4xl font-bold mb-2">Elegí el estilo</h2>
-                                <p className="text-stone-400">Opciones perfectas para <span className="text-amber-400">{selectedOccasion?.name}</span></p>
+                                <h2 className="text-3xl md:text-5xl font-bold mb-3 text-stone-900">Elegí el estilo</h2>
+                                <p className="text-stone-500 font-medium text-lg">Opciones perfectas para <span className={cn("font-bold px-2 py-0.5 rounded-md bg-white border border-stone-200", selectedOccasion?.color)}>{selectedOccasion?.name} (x{attendees})</span></p>
                             </div>
 
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {availableTiers.map((tier) => (
                                     <motion.div
                                         key={tier.id}
-                                        whileHover={{ scale: 1.02 }}
+                                        whileHover={{ y: -5 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setSelectedTier(tier)}
                                         className={cn(
-                                            "relative overflow-hidden rounded-2xl cursor-pointer transition-all border-2",
+                                            "relative overflow-hidden rounded-3xl cursor-pointer transition-all border-2 group bg-white",
                                             selectedTier?.id === tier.id
-                                                ? "border-amber-400 ring-2 ring-amber-400/50"
-                                                : "border-white/10 hover:border-white/30"
+                                                ? "border-stone-900 shadow-2xl shadow-stone-900/10 ring-1 ring-stone-900"
+                                                : "border-stone-100 hover:border-stone-300 hover:shadow-xl"
                                         )}
                                     >
-                                        <div className="relative h-40">
-                                            <Image src={tier.image} alt={tier.name} fill className="object-cover" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/50 to-transparent" />
-                                            <div className="absolute top-3 left-3 text-2xl">{tier.icon}</div>
-                                            <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold">
-                                                ${tier.basePrice}<span className="text-xs font-normal text-stone-300">/pers</span>
+                                        <div className="relative h-48 overflow-hidden">
+                                            <Image src={tier.image} alt={tier.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                                            <div className="absolute top-4 left-4 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-xl shadow-sm">{tier.icon}</div>
+                                            <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-full shadow-lg">
+                                                <span className="text-lg font-bold text-stone-900">${tier.basePrice}</span>
+                                                <span className="text-xs font-medium text-stone-500 ml-1">/pers</span>
                                             </div>
                                         </div>
-                                        <div className={cn("p-4 bg-gradient-to-br", tier.bgGradient, tier.id === 'executive' ? 'text-white' : tier.color)}>
-                                            <h3 className="font-bold text-lg">{tier.name}</h3>
-                                            <p className="text-xs opacity-80 mb-2">{tier.tagline}</p>
-                                            <div className="flex flex-wrap gap-1">
-                                                {tier.features.slice(0, 2).map((f, i) => (
-                                                    <span key={i} className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">
+                                        <div className={cn("p-6 bg-gradient-to-b", tier.bgGradient)}>
+                                            <h3 className={cn("font-bold text-xl mb-1", tier.color)}>{tier.name}</h3>
+                                            <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">{tier.tagline}</p>
+                                            <div className="flex flex-wrap gap-2 mt-4">
+                                                {tier.features.slice(0, 3).map((f, i) => (
+                                                    <span key={i} className="text-[10px] font-bold bg-white border border-stone-100 px-2.5 py-1 rounded-full text-stone-600 shadow-sm">
                                                         {f}
                                                     </span>
                                                 ))}
                                             </div>
                                         </div>
                                         {selectedTier?.id === tier.id && (
-                                            <div className="absolute top-3 right-3 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center z-10">
-                                                <Check size={14} className="text-stone-900" />
+                                            <div className="absolute top-4 right-4 w-8 h-8 bg-stone-900 rounded-full flex items-center justify-center z-10 text-white shadow-lg">
+                                                <Check size={16} />
                                             </div>
                                         )}
                                     </motion.div>
@@ -313,13 +314,13 @@ export default function LunchStudioPage() {
                             </div>
 
                             <div className="flex gap-4">
-                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold border border-white/20 hover:bg-white/5 transition">
+                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold text-stone-500 border-2 border-stone-200 hover:bg-stone-50 hover:text-stone-900 transition-colors">
                                     <ArrowLeft size={20} />
                                 </button>
                                 <button
                                     onClick={goNext}
                                     disabled={!selectedTier}
-                                    className="flex-1 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-900 rounded-2xl font-bold text-lg disabled:opacity-50 hover:shadow-xl hover:shadow-amber-500/30 transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 py-4 bg-stone-900 text-white rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-stone-800 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 shadow-xl shadow-stone-900/10"
                                 >
                                     Siguiente: Personalizar <ArrowRight size={20} />
                                 </button>
@@ -428,31 +429,38 @@ export default function LunchStudioPage() {
                             className="space-y-8"
                         >
                             <div className="text-center">
-                                <Sparkles className="mx-auto text-amber-400 mb-4" size={40} />
-                                <h2 className="text-3xl md:text-4xl font-bold mb-2">¡Tu pedido está listo!</h2>
-                                <p className="text-stone-400">Revisá los detalles y confirmá</p>
+                                <Sparkles className="mx-auto text-amber-500 mb-4" size={48} />
+                                <h2 className="text-3xl md:text-5xl font-bold mb-3 text-stone-900">¡Tu pedido está listo!</h2>
+                                <p className="text-stone-500 font-medium text-lg">Revisá los detalles antes de confirmar</p>
                             </div>
 
-                            <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 space-y-6">
+                            <div className="bg-white rounded-3xl p-8 border border-stone-200 shadow-xl shadow-stone-200/50 space-y-6">
                                 {/* Header */}
-                                <div className="flex items-center gap-4">
-                                    <div className="relative w-20 h-20 rounded-2xl overflow-hidden">
+                                <div className="flex items-center gap-6">
+                                    <div className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-md">
                                         <Image src={selectedTier.image} alt={selectedTier.name} fill className="object-cover" />
                                     </div>
                                     <div className="flex-1">
-                                        <div className="text-2xl mb-1">{selectedOccasion.emoji} {selectedTier.icon}</div>
-                                        <h3 className="text-xl font-bold">{selectedTier.name}</h3>
-                                        <p className="text-sm text-stone-400">{selectedOccasion.name} · {attendees} personas</p>
+                                        <div className="text-2xl mb-1 flex items-center gap-2">
+                                            <span>{selectedOccasion.emoji}</span>
+                                            <span className="text-stone-300">|</span>
+                                            <span>{selectedTier.icon}</span>
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-stone-900">{selectedTier.name}</h3>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <span className={cn("text-xs font-bold px-2 py-0.5 rounded bg-stone-100 border border-stone-200", selectedOccasion.color)}>{selectedOccasion.name}</span>
+                                            <span className="text-xs font-bold text-stone-500 bg-stone-50 px-2 py-0.5 rounded border border-stone-100">{attendees} personas</span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/* Features */}
-                                <div className="border-t border-white/10 pt-4">
-                                    <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Incluye</h4>
-                                    <ul className="space-y-2">
+                                <div className="border-t border-stone-100 pt-6">
+                                    <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-4">El Menú Incluye</h4>
+                                    <ul className="grid sm:grid-cols-2 gap-3">
                                         {selectedTier.features.map((f, i) => (
-                                            <li key={i} className="flex items-center gap-2 text-sm">
-                                                <Check size={14} className="text-emerald-400" />
+                                            <li key={i} className="flex items-start gap-2 text-sm text-stone-600">
+                                                <Check size={16} className="text-emerald-500 mt-0.5" />
                                                 {f}
                                             </li>
                                         ))}
@@ -461,15 +469,16 @@ export default function LunchStudioPage() {
 
                                 {/* Addons */}
                                 {selectedAddons.length > 0 && (
-                                    <div className="border-t border-white/10 pt-4">
-                                        <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Extras</h4>
-                                        <ul className="space-y-2">
+                                    <div className="border-t border-stone-100 pt-6">
+                                        <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-4">Extras Seleccionados</h4>
+                                        <ul className="space-y-3">
                                             {selectedAddons.map(id => {
                                                 const addon = LUNCH_ADDONS.find(a => a.id === id);
                                                 return addon && (
-                                                    <li key={id} className="flex items-center gap-2 text-sm">
-                                                        <span className="text-lg">{addon.icon}</span>
-                                                        {addon.name}
+                                                    <li key={id} className="flex items-center gap-3 text-sm bg-stone-50 p-2 rounded-lg border border-stone-100">
+                                                        <span className="text-xl">{addon.icon}</span>
+                                                        <span className="font-medium text-stone-700">{addon.name}</span>
+                                                        {addon.category === 'dulces' && <span className="ml-auto text-xs text-amber-600 font-bold px-2 py-0.5 bg-amber-50 rounded-full">DULCE</span>}
                                                     </li>
                                                 );
                                             })}
@@ -478,32 +487,34 @@ export default function LunchStudioPage() {
                                 )}
 
                                 {/* Pricing */}
-                                <div className="border-t border-white/10 pt-4 space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-stone-400">Base ({attendees} × ${selectedTier.basePrice})</span>
+                                <div className="border-t border-stone-100 pt-6 space-y-3">
+                                    <div className="flex justify-between text-sm text-stone-500">
+                                        <span>Base ({attendees} × ${selectedTier.basePrice})</span>
                                         <span>${base.toLocaleString()}</span>
                                     </div>
                                     {addonsTotal > 0 && (
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-stone-400">Extras</span>
+                                        <div className="flex justify-between text-sm text-stone-500">
+                                            <span>Extras</span>
                                             <span>${addonsTotal.toLocaleString()}</span>
                                         </div>
                                     )}
-                                    <div className="flex justify-between text-2xl font-bold pt-2 border-t border-white/10">
-                                        <span>Total</span>
-                                        <span className="text-amber-400">${total.toLocaleString()}</span>
+                                    <div className="flex justify-between items-end pt-4 border-t border-stone-200">
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-bold text-stone-400 uppercase">Total Final</span>
+                                            <span className="text-xs text-stone-400 font-medium">${perPerson.toLocaleString()} por persona</span>
+                                        </div>
+                                        <span className="text-4xl font-bold text-stone-900 tracking-tight">${total.toLocaleString()}</span>
                                     </div>
-                                    <p className="text-right text-xs text-stone-400">${perPerson.toLocaleString()} por persona</p>
                                 </div>
                             </div>
 
                             <div className="flex gap-4">
-                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold border border-white/20 hover:bg-white/5 transition">
+                                <button onClick={goBack} className="px-6 py-4 rounded-xl font-bold text-stone-500 border-2 border-stone-200 hover:bg-stone-50 hover:text-stone-900 transition-colors">
                                     <ArrowLeft size={20} />
                                 </button>
                                 <button
                                     onClick={handleAddToCart}
-                                    className="flex-1 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl font-bold text-lg hover:shadow-xl hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 py-4 bg-stone-900 text-white rounded-2xl font-bold text-lg hover:bg-stone-800 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 shadow-xl shadow-stone-900/10"
                                 >
                                     <ShoppingBag size={20} />
                                     Agregar al Pedido

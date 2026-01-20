@@ -23,8 +23,8 @@ export const OCCASIONS: Occasion[] = [
         emoji: '💼',
         description: 'Reuniones, capacitaciones, almuerzos de equipo',
         suggestedTiers: ['express', 'office', 'executive'],
-        color: 'text-blue-600',
-        gradient: 'from-blue-600 to-indigo-700'
+        color: 'text-sky-600',
+        gradient: 'from-sky-50 to-blue-50 border-sky-100'
     },
     {
         id: 'familia',
@@ -32,8 +32,8 @@ export const OCCASIONS: Occasion[] = [
         emoji: '👨‍👩‍👧‍👦',
         description: 'Cumpleaños, domingos, reuniones familiares',
         suggestedTiers: ['family', 'wellness'],
-        color: 'text-rose-600',
-        gradient: 'from-rose-500 to-pink-600'
+        color: 'text-rose-500',
+        gradient: 'from-rose-50 to-pink-50 border-rose-100'
     },
     {
         id: 'amigos',
@@ -41,8 +41,8 @@ export const OCCASIONS: Occasion[] = [
         emoji: '🎉',
         description: 'Juntadas, after office, celebraciones',
         suggestedTiers: ['asado-friends', 'express'],
-        color: 'text-amber-600',
-        gradient: 'from-amber-500 to-orange-600'
+        color: 'text-amber-500',
+        gradient: 'from-amber-50 to-orange-50 border-amber-100'
     },
     {
         id: 'evento',
@@ -50,8 +50,8 @@ export const OCCASIONS: Occasion[] = [
         emoji: '🎊',
         description: 'Casamientos, inauguraciones, lanzamientos',
         suggestedTiers: ['executive', 'wellness'],
-        color: 'text-purple-600',
-        gradient: 'from-purple-600 to-fuchsia-600'
+        color: 'text-purple-500',
+        gradient: 'from-purple-50 to-fuchsia-50 border-purple-100'
     }
 ];
 
@@ -80,7 +80,7 @@ export const LUNCH_TIERS: LunchTier[] = [
         description: 'Sandwiches listos para servir. Ideal para reuniones cortas.',
         basePrice: 350,
         color: 'text-sky-700',
-        bgGradient: 'from-sky-50 to-cyan-50',
+        bgGradient: 'from-sky-50 to-cyan-50 border-sky-100',
         icon: '⚡',
         image: 'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=800&h=600&fit=crop',
         features: [
@@ -96,14 +96,15 @@ export const LUNCH_TIERS: LunchTier[] = [
         description: 'Balance perfecto entre variedad y practicidad.',
         basePrice: 450,
         color: 'text-orange-700',
-        bgGradient: 'from-orange-50 to-amber-50',
+        bgGradient: 'from-orange-50 to-amber-50 border-orange-100',
         icon: '🏢',
         image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop',
         features: [
-            'Sandwiches gourmet variados',
-            'Wraps vegetarianos',
-            'Refrescos línea premium',
-            'Brownies artesanales'
+            'Medialunas rellenas',
+            'Bizcochos salados',
+            'Café en grano',
+            'Jugo de naranja natural',
+            'Frutas de estación'
         ]
     },
     {
@@ -112,8 +113,8 @@ export const LUNCH_TIERS: LunchTier[] = [
         tagline: 'Para impresionar',
         description: 'Presentación premium para reuniones de alto nivel.',
         basePrice: 750,
-        color: 'text-stone-100',
-        bgGradient: 'from-stone-800 to-stone-900',
+        color: 'text-indigo-700',
+        bgGradient: 'from-indigo-50 to-violet-50 border-indigo-100',
         icon: '👔',
         image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop',
         features: [
@@ -131,7 +132,7 @@ export const LUNCH_TIERS: LunchTier[] = [
         description: 'Sabores caseros para compartir en familia.',
         basePrice: 400,
         color: 'text-rose-700',
-        bgGradient: 'from-rose-50 to-pink-50',
+        bgGradient: 'from-rose-50 to-pink-50 border-rose-100',
         icon: '🏠',
         image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=600&fit=crop',
         features: [
@@ -148,7 +149,7 @@ export const LUNCH_TIERS: LunchTier[] = [
         description: 'Todo lo que necesitás para una juntada épica.',
         basePrice: 650,
         color: 'text-red-700',
-        bgGradient: 'from-red-50 to-orange-50',
+        bgGradient: 'from-red-50 to-orange-50 border-red-100',
         icon: '🔥',
         image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&h=600&fit=crop',
         features: [
@@ -166,7 +167,7 @@ export const LUNCH_TIERS: LunchTier[] = [
         description: 'Opciones saludables sin sacrificar sabor.',
         basePrice: 600,
         color: 'text-emerald-700',
-        bgGradient: 'from-emerald-50 to-teal-50',
+        bgGradient: 'from-emerald-50 to-teal-50 border-emerald-100',
         icon: '🥗',
         image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop',
         features: [
