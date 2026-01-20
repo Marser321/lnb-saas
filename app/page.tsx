@@ -132,24 +132,25 @@ export default function Home() {
 
                     {/* Lunch Studio Card (NEW) */}
                     <Link href="/lunch-studio" className="group md:col-span-2">
-                        <div className="relative h-40 md:h-56 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                        <div className="relative h-40 md:h-56 rounded-2xl overflow-hidden shadow-2xl border border-white/20 transition-all hover:scale-[1.01] hover:shadow-3xl">
                             <Image
-                                src="https://images.unsplash.com/photo-1577308856961-0e972ec79025?w=1200&h=600&fit=crop"
+                                src="https://images.unsplash.com/photo-1555244162-803834f70033?w=1200&h=600&fit=crop"
                                 alt="Lunch Studio"
                                 fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-900/40 to-transparent" />
+                            {/* Light Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-stone-100/95 via-stone-100/50 to-transparent" />
 
                             <div className="absolute top-0 bottom-0 left-0 p-5 md:p-8 flex flex-col justify-center max-w-md">
                                 <div className="flex items-center gap-3 mb-2">
-                                    <div className="p-2 rounded-lg bg-blue-500 text-white">
-                                        <Utensils size={20} />
+                                    <div className="p-2.5 rounded-xl bg-gradient-to-br from-amber-400 to-orange-400 text-stone-900 shadow-lg">
+                                        <Utensils size={24} />
                                     </div>
-                                    <h2 className="text-xl md:text-3xl font-bold text-white">Lunch Studio</h2>
+                                    <h2 className="text-xl md:text-3xl font-bold text-stone-900">Lunch Studio</h2>
                                 </div>
-                                <p className="text-blue-100 text-sm md:text-base">
-                                    Catering inteligente para reuniones. Cotizá en segundos para 5 a 100 personas.
+                                <p className="text-stone-600 font-medium text-sm md:text-base leading-relaxed">
+                                    Catering inteligente. Cotizá tu reunión en segundos.
                                 </p>
                             </div>
                         </div>
@@ -181,9 +182,9 @@ export default function Home() {
                 </div>
 
                 {/* DEMO ONLY: Floating Button to view Live Kitchen */}
-                <Link href="/kitchen-live" className="fixed bottom-6 right-6 z-50 bg-stone-900 text-white p-4 rounded-full shadow-2xl flex items-center gap-2 hover:scale-110 transition-transform animate-bounce">
+                <Link href="/kitchen-live" className="fixed bottom-6 right-6 z-50 bg-stone-900 text-white p-4 rounded-full shadow-2xl flex items-center gap-2 hover:scale-110 transition-transform hover:bg-stone-800">
                     <Utensils size={20} />
-                    <span className="font-bold text-xs">Ver Pedido</span>
+                    <span className="font-bold text-xs">Monitor Cocina</span>
                 </Link>
 
             </div>
