@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  web:
+    container_name: lnb-saas-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=production
+    networks:
+      - lnb-network
+
+networks:
+  lnb-network:
+    driver: bridge
