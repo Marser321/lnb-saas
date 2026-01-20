@@ -76,7 +76,6 @@ export default function LunchStudioPage() {
     const goBack = () => setStep(s => Math.max(s - 1, 0));
 
     return (
-    return (
         <div className="min-h-screen bg-stone-50 text-stone-900">
             {/* Header */}
             <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-stone-200">
@@ -438,17 +437,17 @@ export default function LunchStudioPage() {
                                 {/* Header */}
                                 <div className="flex items-center gap-6">
                                     <div className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-md">
-                                        <Image src={selectedTier.image} alt={selectedTier.name} fill className="object-cover" />
+                                        <Image src={selectedTier!.image} alt={selectedTier!.name} fill className="object-cover" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="text-2xl mb-1 flex items-center gap-2">
-                                            <span>{selectedOccasion.emoji}</span>
+                                            <span>{selectedOccasion!.emoji}</span>
                                             <span className="text-stone-300">|</span>
-                                            <span>{selectedTier.icon}</span>
+                                            <span>{selectedTier!.icon}</span>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-stone-900">{selectedTier.name}</h3>
+                                        <h3 className="text-2xl font-bold text-stone-900">{selectedTier!.name}</h3>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <span className={cn("text-xs font-bold px-2 py-0.5 rounded bg-stone-100 border border-stone-200", selectedOccasion.color)}>{selectedOccasion.name}</span>
+                                            <span className={cn("text-xs font-bold px-2 py-0.5 rounded bg-stone-100 border border-stone-200", selectedOccasion!.color)}>{selectedOccasion!.name}</span>
                                             <span className="text-xs font-bold text-stone-500 bg-stone-50 px-2 py-0.5 rounded border border-stone-100">{attendees} personas</span>
                                         </div>
                                     </div>
@@ -458,7 +457,7 @@ export default function LunchStudioPage() {
                                 <div className="border-t border-stone-100 pt-6">
                                     <h4 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-4">El Menú Incluye</h4>
                                     <ul className="grid sm:grid-cols-2 gap-3">
-                                        {selectedTier.features.map((f, i) => (
+                                        {selectedTier!.features.map((f, i) => (
                                             <li key={i} className="flex items-start gap-2 text-sm text-stone-600">
                                                 <Check size={16} className="text-emerald-500 mt-0.5" />
                                                 {f}
@@ -489,7 +488,7 @@ export default function LunchStudioPage() {
                                 {/* Pricing */}
                                 <div className="border-t border-stone-100 pt-6 space-y-3">
                                     <div className="flex justify-between text-sm text-stone-500">
-                                        <span>Base ({attendees} × ${selectedTier.basePrice})</span>
+                                        <span>Base ({attendees} × ${selectedTier!.basePrice})</span>
                                         <span>${base.toLocaleString()}</span>
                                     </div>
                                     {addonsTotal > 0 && (
