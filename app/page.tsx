@@ -130,6 +130,31 @@ export default function Home() {
                         </div>
                     </Link>
 
+                    {/* Lunch Studio Card (NEW) */}
+                    <Link href="/lunch-studio" className="group md:col-span-2">
+                        <div className="relative h-40 md:h-56 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                            <Image
+                                src="https://images.unsplash.com/photo-1554434932-d29ea4b42b62?w=1200&h=600&fit=crop"
+                                alt="Lunch Studio"
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-900/40 to-transparent" />
+
+                            <div className="absolute top-0 bottom-0 left-0 p-5 md:p-8 flex flex-col justify-center max-w-md">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="p-2 rounded-lg bg-blue-500 text-white">
+                                        <Utensils size={20} />
+                                    </div>
+                                    <h2 className="text-xl md:text-3xl font-bold text-white">Lunch Studio</h2>
+                                </div>
+                                <p className="text-blue-100 text-sm md:text-base">
+                                    Catering inteligente para reuniones. Cotizá en segundos para 5 a 100 personas.
+                                </p>
+                            </div>
+                        </div>
+                    </Link>
+
                 </div>
 
                 {/* Value Props - Simplified */}
