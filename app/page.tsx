@@ -5,7 +5,7 @@ import Image from "next/image";
 import { BrandLogo } from "@/components/brand-logo";
 import { QuickReorder } from "@/components/quick-reorder";
 import { LoyaltyCard } from "@/components/loyalty-card";
-import { Cake, Coffee, MapPin, Clock, Star, Instagram, Utensils } from "lucide-react";
+import { Cake, Coffee, MapPin, Clock, Star, Instagram, Utensils, Crown, ChevronRight } from "lucide-react";
 import { COMPANY_INFO, SOCIAL_LINKS } from "@/lib/constants";
 
 export default function Home() {
@@ -76,6 +76,26 @@ export default function Home() {
                 <div className="mb-8 w-full max-w-2xl">
                     <LoyaltyCard />
                 </div>
+
+
+                {/* LNB Pass Banner */}
+                <Link href="/subscription" className="mb-8 w-full max-w-2xl block relative group">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-500 to-purple-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                    <div className="relative bg-stone-900/90 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between border border-white/10">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-gradient-to-br from-amber-400 to-amber-600 p-2.5 rounded-xl shadow-lg shadow-amber-500/20">
+                                <Crown size={20} className="text-stone-900" />
+                            </div>
+                            <div>
+                                <h3 className="text-white font-bold text-lg leading-none mb-1">LNB Pass</h3>
+                                <p className="text-amber-200/80 text-xs">Café ilimitado desde $15.000/mes</p>
+                            </div>
+                        </div>
+                        <div className="bg-white/10 p-2 rounded-full group-hover:bg-white/20 transition-colors">
+                            <ChevronRight className="text-white" size={20} />
+                        </div>
+                    </div>
+                </Link>
 
                 {/* Main Action Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">

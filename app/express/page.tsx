@@ -13,6 +13,7 @@ import { useCartStore } from "@/lib/cart-store";
 import { BrandLogo } from "@/components/brand-logo";
 import { FavoriteButton } from "@/components/favorite-button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { MoodSelector } from "@/components/mood-selector";
 
 export default function BeachExpress() {
     const [activeCategory, setActiveCategory] = useState("all");
@@ -295,6 +296,12 @@ export default function BeachExpress() {
                         )}
                     </AnimatePresence>
 
+
+                    {/* Mood Selector (Mobile & Desktop) */}
+                    <div className="mb-8">
+                        <MoodSelector />
+                    </div>
+
                     {/* Product Grid */}
                     <div>
                         <div className="flex items-center justify-between mb-6">
@@ -436,14 +443,14 @@ export default function BeachExpress() {
                         </button>
                     </div>
 
-                    {/* Mini Banner */}
-                    <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-6 text-white relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
-                        <Star size={24} className="text-yellow-400 mb-4 fill-yellow-400" />
-                        <h3 className="font-bold text-lg mb-2">Unite al Club LNB</h3>
-                        <p className="text-indigo-100 text-xs mb-4">Sumá puntos con cada café y canjealos por premios.</p>
-                        <button onClick={() => window.location.href = '/crumb-club'} className="bg-white text-indigo-700 w-full py-2.5 rounded-xl text-xs font-bold hover:bg-indigo-50 transition-colors">
-                            Ver Beneficios
+                    {/* Mini Banner: Subscription */}
+                    <div className="bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl p-6 text-white relative overflow-hidden group hover:scale-[1.02] transition-transform cursor-pointer" onClick={() => window.location.href = '/subscription'}>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
+                        <Star size={24} className="text-amber-400 mb-4 fill-amber-400" />
+                        <h3 className="font-bold text-lg mb-2">LNB Pass</h3>
+                        <p className="text-stone-400 text-xs mb-4">Café ilimitado y descuentos exclusivos. Unite hoy.</p>
+                        <button className="bg-white text-stone-900 w-full py-2.5 rounded-xl text-xs font-bold hover:bg-amber-400 hover:text-stone-900 transition-colors">
+                            Ver Planes
                         </button>
                     </div>
                 </div>
