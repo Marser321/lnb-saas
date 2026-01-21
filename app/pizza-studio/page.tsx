@@ -150,47 +150,42 @@ export default function PizzaStudioPage() {
                                             transition={{ delay: toppingIndex * 0.1 + i * 0.05 }}
                                             className="absolute w-10 h-10" // keep size
                                             style={{
-                                                // Improved random placement logic for better coverage
-                                                // Using a spiral-like distribution + salt/pepper noise
-                                                top: `${50 + (Math.sin(i * 2.5 + toppingIndex) * (15 + (i % 3) * 12))}%`,
-                                                left: `${50 + (Math.cos(i * 2.5 + toppingIndex) * (15 + (i % 3) * 12))}%`,
-                                                transform: `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`
-                                            }}
-                                        >
-                                            {/* Conditional blending */}
-                                            {(() => {
-                                                // Black background images (Generated) -> SCREEN
-                                                const isBlackBg = ['mozzarella', 'provolone', 'blue', 'pepperoni', 'ham', 'bacon'].includes(t.id);
+                                                return instances.map((_, i) => {
+                                                    const isBlackBg = ['mozzarella', 'provolone', 'blue', 'pepperoni', 'ham', 'bacon'].includes(t.id);
+                                                    const blendClass = isBlackBg
+                                                        ? 'mix-blend-screen brightness-125' // Screen for black backgrounds (removes black)
+                                                        : 'mix-blend-multiply';           // Multiply for white backgrounds (removes white)
 
-                                                if (isBlackBg) {
                                                     return (
-                                                        <div className="w-full h-full relative">
+                                                        <motion.div
+                                                            key={`${t.id}-${i}`}
+                                                            initial={{ opacity: 0, scale: 0, y: -20 }}
+                                                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                            exit={{ opacity: 0, scale: 0 }}
+                                                            transition={{ delay: toppingIndex * 0.1 + i * 0.05 }}
+                                                            className={cn(
+                                                                "absolute w-10 h-10",
+                                                                blendClass,
+                                                                !isBlackBg && "rounded-full overflow-hidden shadow-sm" // Apply rounded-full and shadow for white background images
+                                                            )}
+                                                            style={{
+                                                                // Improved random placement logic for better coverage
+                                                                // Using a spiral-like distribution + salt/pepper noise
+                                                                top: `${50 + (Math.sin(i * 2.5 + toppingIndex) * (15 + (i % 3) * 12))}%`,
+                                                                left: `${50 + (Math.cos(i * 2.5 + toppingIndex) * (15 + (i % 3) * 12))}%`,
+                                                                transform: `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`
+                                                            }}
+                                                        >
                                                             <Image
                                                                 src={t.image}
                                                                 alt={t.label}
                                                                 fill
-                                                                className="object-contain mix-blend-screen brightness-110 contrast-125" // Boost brightness for meats/cheese on red sauce
+                                                                className="object-contain"
                                                             />
-                                                        </div>
+                                                        </motion.div>
                                                     );
-                                                }
-                                                // White background images (Legacy) -> MULTIPLY + ROUNDED
-                                                else {
-                                                    return (
-                                                        <div className="w-full h-full rounded-full overflow-hidden relative shadow-sm">
-                                                            <Image
-                                                                src={t.image}
-                                                                alt={t.label}
-                                                                fill
-                                                                className="object-cover mix-blend-multiply"
-                                                            />
-                                                        </div>
-                                                    );
-                                                }
-                                            })()}
-                                        </motion.div>
-                                    ));
-                                })}
+                                                });
+                                            })}
                             </AnimatePresence>
                         </div>
                         {/* Highlight/Shine */}
