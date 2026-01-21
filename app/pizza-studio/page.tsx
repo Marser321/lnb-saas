@@ -133,25 +133,16 @@ export default function PizzaStudioPage() {
                             </motion.div>
                         )}
 
-                        {/* Toppings Layer */}
                         {/* Toppings Layer - Scattered & Realistic */}
-                        <div className="absolute inset-[10%] z-20 overflow-visible"> {/* Reduced inset to allow wider spread, z-20 to sit above sauce */}
+                        <div className="absolute inset-[5%] z-20 overflow-hidden rounded-full pointer-events-none">
                             <AnimatePresence>
                                 {toppings.map((t, toppingIndex) => {
-                                    // Increased instances for denser, richer look
+                                    // 8 instances per topping for dense, realistic coverage
                                     const instances = [0, 1, 2, 3, 4, 5, 6, 7];
                                     return instances.map((_, i) => {
-                                        const isBlackBg = ['mozzarella', 'provolone', 'blue', 'pepperoni', 'ham', 'bacon'].includes(t.id);
-
-                                        // Reverting to SCREEN. 'plus-lighter' may have limited support or failed in this context.
-                                        // SCREEN is the standard for making black transparent.
-                                        const blendClass = isBlackBg
-                                            ? 'mix-blend-screen'
-                                            : 'mix-blend-multiply';
-
-                                        // Random-ish psuedo-random positions
+                                        // Deterministic pseudo-random positions using angle/radius
                                         const angle = (i * 50 + toppingIndex * 23) % 360;
-                                        const radius = 10 + (i * 7 + toppingIndex * 3) % 45;
+                                        const radius = 12 + (i * 7 + toppingIndex * 3) % 38; // Keep within pizza bounds
 
                                         return (
                                             <motion.div
@@ -160,32 +151,23 @@ export default function PizzaStudioPage() {
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 exit={{ opacity: 0, scale: 0 }}
                                                 transition={{
-                                                    delay: toppingIndex * 0.1 + i * 0.03,
+                                                    delay: toppingIndex * 0.08 + i * 0.02,
                                                     type: "spring",
-                                                    stiffness: 200,
+                                                    stiffness: 250,
                                                     damping: 20
                                                 }}
-                                                className={cn(
-                                                    "absolute w-12 h-12",
-                                                    blendClass, // Blend mode APPLIED TO TRANSFORMED CONTAINER
-                                                    // Safety: Round corners to minimize artifacts if blending isn't 100% perfect at edges
-                                                    "rounded-full"
-                                                )}
+                                                className="absolute w-10 h-10 rounded-full overflow-hidden mix-blend-multiply"
                                                 style={{
                                                     top: `${50 + Math.sin(angle * Math.PI / 180) * radius}%`,
                                                     left: `${50 + Math.cos(angle * Math.PI / 180) * radius}%`,
-                                                    transform: `translate(-50%, -50%) rotate(${angle * 2}deg)`
+                                                    transform: `translate(-50%, -50%) rotate(${angle * 1.5}deg)`
                                                 }}
                                             >
                                                 <Image
                                                     src={t.image}
                                                     alt={t.label}
                                                     fill
-                                                    className={cn(
-                                                        "object-cover",
-                                                        // Scale up content slightly to fill the rounded mask
-                                                        "scale-110"
-                                                    )}
+                                                    className="object-cover scale-125"
                                                 />
                                             </motion.div>
                                         );
