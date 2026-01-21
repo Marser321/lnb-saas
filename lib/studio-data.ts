@@ -83,25 +83,25 @@ export const BURGER_BUNS = [
 ];
 
 export const BURGER_PATTIES = [
-    { id: 'beef-180', label: 'Carne 180g', price: 350, image: '/images/studio/burger-patty-beef.png', thickness: 25 },
-    { id: 'beef-double', label: 'Doble Carne', price: 550, image: '/images/studio/burger-patty-beef.png', thickness: 50 }, // Simulated double thickness
-    { id: 'chicken-crispy', label: 'Pollo Crispy', price: 320, image: '/images/studio/burger-patty-beef.png', thickness: 28, className: 'brightness-110 sepia-[.3]' }, // Golden crispy look
-    { id: 'veggie', label: 'NotBurger (Veggie)', price: 380, image: '/images/studio/burger-patty-beef.png', thickness: 22, className: 'brightness-90 contrast-125' }, // Darker char
+    { id: 'beef-180', label: 'Carne 180g', price: 350, image: '/images/studio/burger-side-patty-beef.png', thickness: 25 },
+    { id: 'beef-double', label: 'Doble Carne', price: 550, image: '/images/studio/burger-side-patty-beef.png', thickness: 50 }, // Simulated double thickness
+    { id: 'chicken-crispy', label: 'Pollo Crispy', price: 320, image: '/images/studio/burger-side-patty-chicken.png', thickness: 28 },
+    { id: 'veggie', label: 'NotBurger (Veggie)', price: 380, image: '/images/studio/burger-side-patty-veggie.png', thickness: 22 },
 ];
 
 export const BURGER_CHEESES = [
-    { id: 'cheddar', label: 'Cheddar', price: 40, color: 'bg-yellow-400', image: '/images/studio/burger-cheese-cheddar.png', thickness: 8 },
-    { id: 'dambo', label: 'Dambo', price: 40, color: 'bg-yellow-100', image: '/images/studio/burger-cheese-cheddar.png', thickness: 8, className: 'brightness-125 saturate-50' }, // Pale yellow
-    { id: 'blue', label: 'Roquefort', price: 60, color: 'bg-stone-200', image: '/images/studio/burger-cheese-cheddar.png', thickness: 10, className: 'hue-rotate-180 brightness-90 saturate-50' }, // Blueish tint
+    { id: 'cheddar', label: 'Cheddar', price: 40, color: 'bg-yellow-400', image: '/images/studio/burger-side-cheese-cheddar.png', thickness: 8 },
+    { id: 'dambo', label: 'Dambo', price: 40, color: 'bg-yellow-100', image: '/images/studio/burger-side-cheese-cheddar.png', thickness: 8, className: 'brightness-110 saturate-50' }, // Kept slight filter for differentiation using new base
+    { id: 'blue', label: 'Roquefort', price: 60, color: 'bg-stone-200', image: '/images/studio/burger-side-cheese-blue.png', thickness: 10 },
     { id: 'none', label: 'Sin Queso', price: 0, color: 'transparent', image: null, thickness: 0 },
 ];
 
 export const BURGER_EXTRAS = [
-    { id: 'bacon', label: 'Panceta', price: 60, image: '/images/studio/burger-bacon.png', thickness: 6 },
-    { id: 'egg', label: 'Huevo Frito', price: 50, image: '/images/studio/burger-cheese-cheddar.png', thickness: 12, className: 'brightness-110' }, // Using cheese as egg?
-    { id: 'onion-caramel', label: 'Cebolla Caramelizada', price: 40, image: '/images/studio/burger-bacon.png', thickness: 8, className: 'brightness-50 sepia contrast-125' }, // Dark sticky look
-    { id: 'pickles', label: 'Pepinillos', price: 30, image: '/images/studio/burger-lettuce.png', thickness: 5, className: 'hue-rotate-[280deg] brightness-75 saturate-150' }, // Dark green/pickle color
-    { id: 'lettuce', label: 'Lechuga', price: 20, image: '/images/studio/burger-lettuce.png', thickness: 15 },
-    { id: 'avocado', label: 'Palta', price: 80, image: '/images/studio/burger-lettuce.png', thickness: 12, className: 'hue-rotate-[290deg] brightness-90 saturate-50' }, // Avocado green
-    { id: 'tomato', label: 'Tomate', price: 20, image: '/images/studio/burger-tomato.png', thickness: 10 },
+    { id: 'bacon', label: 'Panceta', price: 60, image: '/images/studio/burger-side-bacon.png', thickness: 6 },
+    { id: 'egg', label: 'Huevo Frito', price: 50, image: '/images/studio/burger-side-egg.png', thickness: 12 },
+    { id: 'onion-caramel', label: 'Cebolla Caramelizada', price: 40, image: '/images/studio/burger-side-onion.png', thickness: 8 },
+    { id: 'pickles', label: 'Pepinillos', price: 30, image: '/images/studio/burger-side-pickles.png', thickness: 5 },
+    { id: 'lettuce', label: 'Lechuga', price: 20, image: '/images/studio/burger-side-lettuce.png', thickness: 15 },
+    { id: 'avocado', label: 'Palta', price: 80, image: '/images/studio/burger-side-avocado.png', thickness: 12 },
+    { id: 'tomato', label: 'Tomate', price: 20, image: '/images/studio/burger-side-tomato.png', thickness: 10 },
 ];

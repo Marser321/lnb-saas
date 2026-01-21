@@ -93,43 +93,43 @@ export default function BurgerStudioPage() {
                             />
                         </motion.div>
 
-                        {/* 2. Patty - Isometric Asset (Needs Zoom + Filters) */}
+                        {/* 2. Patty - Real Side View Asset */}
                         <motion.div
                             key={patty.id}
                             initial={{ y: -20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.1 }}
-                            className="relative w-[500px] h-[140px] z-20 -mb-8 flex-shrink-0 mix-blend-multiply"
+                            className="relative w-[500px] h-[100px] z-20 -mb-5 flex-shrink-0"
                         >
                             <Image
                                 src={patty.image}
                                 alt={patty.label}
                                 fill
-                                className={`object-contain scale-[1.2] ${patty.className || ''}`}
+                                className="object-contain"
                             />
                         </motion.div>
 
-                        {/* 3. Cheese - DRASTICALLY REDUCED (Fixed Huge Scale) */}
+                        {/* 3. Cheese - Scaled Down to Fix Visual Size */}
                         {cheese.id !== 'none' && (
                             <motion.div
                                 key={cheese.id}
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.15 }}
-                                className="relative w-[380px] h-[90px] z-30 -mb-8 flex-shrink-0 pointer-events-none mix-blend-multiply"
+                                className="relative w-[450px] h-[80px] z-30 -mb-6 flex-shrink-0 pointer-events-none"
                             >
                                 {cheese.image && (
                                     <Image
                                         src={cheese.image}
                                         alt={cheese.label}
                                         fill
-                                        className={`object-cover scale-[1.05] ${cheese.className || ''}`}
+                                        className="object-contain scale-[0.55]"
                                     />
                                 )}
                             </motion.div>
                         )}
 
-                        {/* 4. Extras - Isometric Assets + Filters */}
+                        {/* 4. Extras - Real Side View Assets */}
                         <AnimatePresence>
                             {extras.map((extra, i) => (
                                 <motion.div
@@ -138,14 +138,14 @@ export default function BurgerStudioPage() {
                                     animate={{ x: 0, opacity: 1 }}
                                     exit={{ scale: 0, opacity: 0 }}
                                     transition={{ delay: 0.2 + i * 0.1 }}
-                                    className="relative w-[450px] h-[80px] -mb-8 flex-shrink-0 mix-blend-multiply"
+                                    className="relative w-[500px] h-[80px] -mb-6 flex-shrink-0"
                                     style={{ zIndex: 40 + i }}
                                 >
                                     <Image
                                         src={extra.image}
                                         alt={extra.label}
                                         fill
-                                        className={`object-contain scale-[1.8] ${extra.className || ''}`}
+                                        className="object-contain"
                                     />
                                 </motion.div>
                             ))}
