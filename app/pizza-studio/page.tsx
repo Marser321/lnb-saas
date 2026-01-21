@@ -159,13 +159,16 @@ export default function PizzaStudioPage() {
                                                 transform: `translate(-50%, -50%) rotate(${i * 60 + toppingIndex * 30}deg)`
                                             }}
                                         >
-                                            <Image
-                                                src={t.image}
-                                                alt={t.label}
-                                                width={40}
-                                                height={40}
-                                                className="object-contain drop-shadow-sm mix-blend-multiply"
-                                            />
+                                            {/* Conditional styling based on category */}
+                                            {/* Cheese needs to be opaque (white), others blend better with multiply */}
+                                            <div className="w-full h-full rounded-full overflow-hidden relative">
+                                                <Image
+                                                    src={t.image}
+                                                    alt={t.label}
+                                                    fill
+                                                    className={`object-cover ${t.category === 'cheese' ? '' : 'mix-blend-multiply scale-90'}`}
+                                                />
+                                            </div>
                                         </motion.div>
                                     ));
                                 })}
