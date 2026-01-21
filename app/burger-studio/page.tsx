@@ -74,16 +74,16 @@ export default function BurgerStudioPage() {
             <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-80px)]">
 
                 {/* Left: Visual Builder (Sticky) */}
-                <div className="relative bg-stone-200 flex items-center justify-center p-8 lg:sticky lg:top-20 lg:h-[calc(100vh-80px)] overflow-hidden">
+                <div className="relative bg-white flex items-center justify-center p-8 lg:sticky lg:top-20 lg:h-[calc(100vh-80px)] overflow-hidden">
                     {/* Visualizer Container - Side View Stack */}
                     <div className="relative w-full max-w-xl h-auto flex flex-col-reverse items-center justify-center transform scale-90 md:scale-100 transition-transform">
 
-                        {/* 1. Bottom Bun (Base) */}
+                        {/* 1. Bottom Bun (Base) - Side View Asset (Correct Scale) */}
                         <motion.div
                             key="bun-bottom"
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            className="relative w-[380px] h-[90px] z-10 -mt-8 flex-shrink-0 mix-blend-multiply"
+                            className="relative w-[500px] h-[120px] z-10 -mt-10 flex-shrink-0"
                         >
                             <Image
                                 src={bun.bottomImage || '/images/studio/burger-side-bun-bottom.png'}
@@ -93,33 +93,35 @@ export default function BurgerStudioPage() {
                             />
                         </motion.div>
 
-                        {/* 2. Patty */}
+                        {/* 2. Patty - Isometric Asset (Needs Zoom) */}
                         <motion.div
                             key={patty.id}
                             initial={{ y: -20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.1 }}
-                            className="relative w-[360px] h-[100px] z-20 -mb-4 flex-shrink-0 mix-blend-multiply"
+                            className="relative w-[500px] h-[140px] z-20 -mb-8 flex-shrink-0 mix-blend-multiply"
                         >
-                            <Image src={patty.image} alt={patty.label} fill className="object-contain" />
+                            {/* Zooming in 1.2x to fill white space */}
+                            <Image src={patty.image} alt={patty.label} fill className="object-contain scale-[1.2]" />
                         </motion.div>
 
-                        {/* 3. Cheese */}
+                        {/* 3. Cheese - Isometric Asset (Needs Zoom & Crop) */}
                         {cheese.id !== 'none' && (
                             <motion.div
                                 key={cheese.id}
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.15 }}
-                                className="relative w-[370px] h-[70px] z-30 -mb-8 flex-shrink-0 pointer-events-none mix-blend-multiply"
+                                className="relative w-[480px] h-[100px] z-30 -mb-10 flex-shrink-0 pointer-events-none mix-blend-multiply"
                             >
                                 {cheese.image && (
-                                    <Image src={cheese.image} alt={cheese.label} fill className="object-cover" />
+                                    // Zooming 1.3x to focus on the slice
+                                    <Image src={cheese.image} alt={cheese.label} fill className="object-cover scale-[1.3]" />
                                 )}
                             </motion.div>
                         )}
 
-                        {/* 4. Extras */}
+                        {/* 4. Extras - Isometric Assets (Tiny -> Need Massive Zoom) */}
                         <AnimatePresence>
                             {extras.map((extra, i) => (
                                 <motion.div
@@ -128,21 +130,22 @@ export default function BurgerStudioPage() {
                                     animate={{ x: 0, opacity: 1 }}
                                     exit={{ scale: 0, opacity: 0 }}
                                     transition={{ delay: 0.2 + i * 0.1 }}
-                                    className="relative w-[360px] h-[60px] -mb-6 flex-shrink-0 mix-blend-multiply"
+                                    className="relative w-[480px] h-[80px] -mb-8 flex-shrink-0 mix-blend-multiply"
                                     style={{ zIndex: 40 + i }}
                                 >
-                                    <Image src={extra.image} alt={extra.label} fill className="object-contain" />
+                                    {/* Massive zoom 1.8x because isometric extras have huge padding */}
+                                    <Image src={extra.image} alt={extra.label} fill className="object-contain scale-[1.8]" />
                                 </motion.div>
                             ))}
                         </AnimatePresence>
 
-                        {/* 5. Top Bun (Crown) */}
+                        {/* 5. Top Bun (Crown) - Side View Asset (Correct Scale) */}
                         <motion.div
                             key="bun-top"
                             initial={{ y: -100, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.3 + extras.length * 0.1, type: "spring", stiffness: 120 }}
-                            className="relative w-[380px] h-[110px] z-[100] -mb-4 flex-shrink-0 drop-shadow-xl mix-blend-multiply"
+                            className="relative w-[500px] h-[150px] z-[100] -mb-6 flex-shrink-0 drop-shadow-xl"
                         >
                             <Image
                                 src={bun.image}
