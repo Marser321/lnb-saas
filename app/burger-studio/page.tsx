@@ -75,7 +75,7 @@ export default function BurgerStudioPage() {
 
                 {/* Left: Visual Builder (Sticky) */}
                 <div className="relative bg-stone-200 flex items-center justify-center p-8 lg:sticky lg:top-20 lg:h-[calc(100vh-80px)] overflow-hidden">
-                    <div className="relative w-full max-w-2xl h-[700px] flex flex-col justify-end items-center perspective-1000 pb-24">
+                    <div className="relative w-full max-w-4xl h-[700px] flex flex-col justify-end items-center perspective-1000 pb-12">
                         <AnimatePresence mode="popLayout">
                             {(() => {
                                 let currentHeight = 0;
@@ -85,53 +85,54 @@ export default function BurgerStudioPage() {
                                 elements.push(
                                     <motion.div
                                         key="bun-bottom"
-                                        className="absolute w-[480px] h-[140px] z-10 mix-blend-multiply"
+                                        className="absolute w-[600px] h-[180px] z-10 mix-blend-multiply"
                                         style={{ bottom: 0 }}
-                                        initial={{ y: 100, opacity: 0 }}
+                                        initial={{ y: 200, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
-                                        transition={{ type: "spring" }}
+                                        transition={{ type: "spring", stiffness: 100 }}
                                     >
                                         <Image
                                             src={bun.bottomImage || '/images/studio/burger-bun-bottom.png'}
                                             alt="Bottom Bun"
                                             fill
-                                            className="object-contain" // Removed mix-blend from here
+                                            className="object-contain"
                                         />
                                     </motion.div>
                                 );
-                                currentHeight += 40; // Height of visible bottom bun part (scaled up)
+                                currentHeight += 50; // Increased base height
 
                                 // 2. Patty
                                 elements.push(
                                     <motion.div
                                         key={patty.id}
-                                        className="absolute w-[450px] h-[140px] z-20 mix-blend-multiply"
+                                        className="absolute w-[580px] h-[180px] z-20 mix-blend-multiply"
                                         style={{ bottom: currentHeight }}
-                                        initial={{ y: -50, opacity: 0 }}
+                                        initial={{ y: -100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
-                                        transition={{ type: "spring", bounce: 0.4 }}
+                                        transition={{ type: "spring", bounce: 0.5 }}
                                     >
-                                        <Image src={patty.image} alt={patty.label} fill className="object-contain drop-shadow-md" />
+                                        <Image src={patty.image} alt={patty.label} fill className="object-contain" />
                                     </motion.div>
                                 );
-                                currentHeight += (patty.thickness ? patty.thickness * 1.4 : 35); // Scale thickness
+                                currentHeight += (patty.thickness ? patty.thickness * 1.8 : 45); // More vertical separation
 
                                 // 3. Cheese
                                 if (cheese.id !== 'none') {
                                     elements.push(
                                         <motion.div
                                             key={cheese.id}
-                                            className="absolute w-[460px] h-[140px] z-30 pointer-events-none mix-blend-multiply"
-                                            style={{ bottom: currentHeight - 15 }} // Slight overlap
-                                            initial={{ scale: 0.8, opacity: 0 }}
+                                            className="absolute w-[590px] h-[180px] z-30 pointer-events-none mix-blend-multiply"
+                                            style={{ bottom: currentHeight - 20 }} // Overlap
+                                            initial={{ scale: 0.5, opacity: 0 }}
                                             animate={{ scale: 1, opacity: 1 }}
+                                            transition={{ type: "spring", stiffness: 200 }}
                                         >
                                             {cheese.image && (
                                                 <Image src={cheese.image} alt={cheese.label} fill className="object-contain" />
                                             )}
                                         </motion.div>
                                     );
-                                    currentHeight += (cheese.thickness ? cheese.thickness * 1.4 : 15);
+                                    currentHeight += (cheese.thickness ? cheese.thickness * 1.8 : 20);
                                 }
 
                                 // 4. Extras
@@ -139,32 +140,32 @@ export default function BurgerStudioPage() {
                                     elements.push(
                                         <motion.div
                                             key={extra.id}
-                                            className="absolute w-[450px] h-[140px] mix-blend-multiply"
+                                            className="absolute w-[580px] h-[180px] mix-blend-multiply"
                                             style={{
                                                 bottom: currentHeight,
                                                 zIndex: 40 + i
                                             }}
-                                            initial={{ x: -100, opacity: 0 }}
-                                            animate={{ x: 0, opacity: 1 }}
+                                            initial={{ x: i % 2 === 0 ? -200 : 200, opacity: 0, rotate: i % 2 === 0 ? -10 : 10 }}
+                                            animate={{ x: 0, opacity: 1, rotate: 0 }}
+                                            transition={{ type: "spring", stiffness: 120, damping: 15 }}
                                         >
-                                            <Image src={extra.image} alt={extra.label} fill className="object-contain drop-shadow-sm" />
+                                            <Image src={extra.image} alt={extra.label} fill className="object-contain" />
                                         </motion.div>
                                     );
-                                    currentHeight += (extra.thickness ? extra.thickness * 1.4 : 15);
+                                    currentHeight += (extra.thickness ? extra.thickness * 1.8 : 20);
                                 });
 
                                 // 5. Top Bun
                                 elements.push(
                                     <motion.div
                                         key="bun-top"
-                                        className="absolute w-[480px] h-[160px] drop-shadow-2xl mix-blend-multiply"
+                                        className="absolute w-[600px] h-[200px] mix-blend-multiply z-50"
                                         style={{
-                                            bottom: currentHeight - 15, // Sits slightly over the last item
-                                            zIndex: 100
+                                            bottom: currentHeight - 20,
                                         }}
-                                        initial={{ y: -200, opacity: 0 }}
+                                        initial={{ y: -300, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
-                                        transition={{ type: "spring", mass: 0.8 }}
+                                        transition={{ type: "spring", mass: 1.2, stiffness: 80 }}
                                     >
                                         <Image
                                             src={bun.image}
