@@ -97,47 +97,46 @@ export default function Home() {
                     </div>
                 </Link>
 
-                {/* Main Action Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+                {/* Craving Studios Section - Full Width */}
+                <div className="w-full max-w-2xl mb-6">
+                    <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2 drop-shadow-md">
+                        <Utensils className="text-amber-500" /> Craving Studios
+                    </h2>
+                    <div className="grid grid-cols-3 gap-4">
+                        <Link href="/pizza-studio" className="block group">
+                            <div className="relative h-32 md:h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
+                                <Image src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=400&fit=crop" alt="Pizza" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                            </div>
+                            <h3 className="font-bold text-white flex items-center gap-1 text-sm md:text-base">🍕 Pizza Studio</h3>
+                            <p className="text-xs text-amber-200/80">Diseñá tu masa ideal</p>
+                        </Link>
 
+                        <Link href="/burger-studio" className="block group">
+                            <div className="relative h-32 md:h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
+                                <Image src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=400&fit=crop" alt="Burger" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                            </div>
+                            <h3 className="font-bold text-white flex items-center gap-1 text-sm md:text-base">🍔 Burger Studio</h3>
+                            <p className="text-xs text-amber-200/80">Stack builder premium</p>
+                        </Link>
 
-                    <div>
-                        <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2 drop-shadow-md">
-                            <Utensils className="text-amber-500" /> Craving Studios
-                        </h2>
-                        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:grid md:grid-cols-3 md:mx-0 md:px-0 md:overflow-visible">
-                            <Link href="/pizza-studio" className="min-w-[200px] block group">
-                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
-                                    <Image src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=400&fit=crop" alt="Pizza" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-                                </div>
-                                <h3 className="font-bold text-white flex items-center gap-1">🍕 Pizza Studio</h3>
-                                <p className="text-xs text-amber-200/80">Diseñá tu masa ideal</p>
-                            </Link>
-
-                            <Link href="/burger-studio" className="min-w-[200px] block group">
-                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
-                                    <Image src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=400&fit=crop" alt="Burger" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-                                </div>
-                                <h3 className="font-bold text-white flex items-center gap-1">🍔 Burger Studio</h3>
-                                <p className="text-xs text-amber-200/80">Stack builder premium</p>
-                            </Link>
-
-                            <Link href="/empanada-studio" className="min-w-[200px] block group">
-                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
-                                    <Image src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=400&fit=crop" alt="Empanadas" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-                                </div>
-                                <h3 className="font-bold text-white flex items-center gap-1">🥟 Empanada Studio</h3>
-                                <p className="text-xs text-amber-200/80">Armá tu caja</p>
-                            </Link>
-                        </div>
+                        <Link href="/empanada-studio" className="block group">
+                            <div className="relative h-32 md:h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
+                                <Image src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=400&fit=crop" alt="Empanadas" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                            </div>
+                            <h3 className="font-bold text-white flex items-center gap-1 text-sm md:text-base">🥟 Empanada Studio</h3>
+                            <p className="text-xs text-amber-200/80">Armá tu caja</p>
+                        </Link>
                     </div>
+                </div>
 
+                {/* Main Action Cards - 2 Column Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
                     {/* Cake Studio Card */}
                     <Link href="/studio" className="group">
-                        <div className="relative h-56 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                        <div className="relative h-48 md:h-56 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                             <Image
                                 src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop"
                                 alt="Cake Studio"
