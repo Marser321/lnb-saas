@@ -135,12 +135,12 @@ export default function PizzaStudioPage() {
 
                         {/* Toppings Layer */}
                         {/* Toppings Layer - Scattered & Realistic */}
-                        <div className="absolute inset-2 pointer-events-none z-10 overflow-hidden rounded-full">
+                        <div className="absolute inset-[10%] z-20 overflow-visible"> {/* Reduced inset to allow wider spread, z-20 to sit above sauce */}
                             <AnimatePresence>
                                 {toppings.map((t, toppingIndex) => {
                                     // Generate multiple instances for each topping to simulate "scattering"
-                                    // We create 6 instances per topping
-                                    const instances = [0, 1, 2, 3, 4, 5];
+                                    // Increased instances for denser look
+                                    const instances = [0, 1, 2, 3, 4, 5, 6, 7];
                                     return instances.map((_, i) => (
                                         <motion.div
                                             key={`${t.id}-${i}`}
@@ -148,36 +148,45 @@ export default function PizzaStudioPage() {
                                             animate={{ opacity: 1, scale: 1, y: 0 }}
                                             exit={{ opacity: 0, scale: 0 }}
                                             transition={{ delay: toppingIndex * 0.1 + i * 0.05 }}
-                                            className="absolute w-10 h-10"
+                                            className="absolute w-10 h-10" // keep size
                                             style={{
-                                                // Pseudo-random placement logic
-                                                // We use prime numbers and modulo to get a deterministic but scattered distribution
-                                                // that varies per topping type and instance index.
-                                                // Radius factor ensures they don't all cluster in center or edge.
-                                                top: `${50 + (Math.sin((toppingIndex * 13 + i * 7)) * (20 + (i % 3) * 10))}%`,
-                                                left: `${50 + (Math.cos((toppingIndex * 13 + i * 7)) * (20 + (i % 3) * 10))}%`,
-                                                transform: `translate(-50%, -50%) rotate(${i * 60 + toppingIndex * 30}deg)`
+                                                // Improved random placement logic for better coverage
+                                                // Using a spiral-like distribution + salt/pepper noise
+                                                top: `${50 + (Math.sin(i * 2.5 + toppingIndex) * (15 + (i % 3) * 12))}%`,
+                                                left: `${50 + (Math.cos(i * 2.5 + toppingIndex) * (15 + (i % 3) * 12))}%`,
+                                                transform: `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`
                                             }}
                                         >
-                                            // Conditional styling based on background type of the image
-                                            // New assets (cheese, meats) are on BLACK background -> Use SCREEN to remove black
-                                            // Old assets (veggies) are on WHITE background -> Use MULTIPLY to remove white
-
-                                            {/* Determine blend mode based on topping type */}
+                                            {/* Conditional blending */}
                                             {(() => {
+                                                // Black background images (Generated) -> SCREEN
                                                 const isBlackBg = ['mozzarella', 'provolone', 'blue', 'pepperoni', 'ham', 'bacon'].includes(t.id);
-                                                const blendMode = isBlackBg ? 'mix-blend-screen' : 'mix-blend-multiply';
 
-                                                return (
-                                                    <div className="w-full h-full rounded-full overflow-hidden relative">
-                                                        <Image
-                                                            src={t.image}
-                                                            alt={t.label}
-                                                            fill
-                                                            className={`object-cover ${blendMode}`}
-                                                        />
-                                                    </div>
-                                                );
+                                                if (isBlackBg) {
+                                                    return (
+                                                        <div className="w-full h-full relative">
+                                                            <Image
+                                                                src={t.image}
+                                                                alt={t.label}
+                                                                fill
+                                                                className="object-contain mix-blend-screen brightness-110 contrast-125" // Boost brightness for meats/cheese on red sauce
+                                                            />
+                                                        </div>
+                                                    );
+                                                }
+                                                // White background images (Legacy) -> MULTIPLY + ROUNDED
+                                                else {
+                                                    return (
+                                                        <div className="w-full h-full rounded-full overflow-hidden relative shadow-sm">
+                                                            <Image
+                                                                src={t.image}
+                                                                alt={t.label}
+                                                                fill
+                                                                className="object-cover mix-blend-multiply"
+                                                            />
+                                                        </div>
+                                                    );
+                                                }
                                             })()}
                                         </motion.div>
                                     ));
