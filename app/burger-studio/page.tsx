@@ -75,7 +75,7 @@ export default function BurgerStudioPage() {
 
                 {/* Left: Visual Builder (Sticky) */}
                 <div className="relative bg-stone-200 flex items-center justify-center p-8 lg:sticky lg:top-20 lg:h-[calc(100vh-80px)] overflow-hidden">
-                    <div className="relative w-full max-w-lg h-[550px] flex flex-col justify-end items-center perspective-1000 pb-24">
+                    <div className="relative w-full max-w-2xl h-[700px] flex flex-col justify-end items-center perspective-1000 pb-24">
                         <AnimatePresence mode="popLayout">
                             {(() => {
                                 let currentHeight = 0;
@@ -85,7 +85,7 @@ export default function BurgerStudioPage() {
                                 elements.push(
                                     <motion.div
                                         key="bun-bottom"
-                                        className="absolute w-[340px] h-[100px] z-10"
+                                        className="absolute w-[480px] h-[140px] z-10 mix-blend-multiply"
                                         style={{ bottom: 0 }}
                                         initial={{ y: 100, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
@@ -95,43 +95,43 @@ export default function BurgerStudioPage() {
                                             src={bun.bottomImage || '/images/studio/burger-bun-bottom.png'}
                                             alt="Bottom Bun"
                                             fill
-                                            className="object-contain mix-blend-multiply"
+                                            className="object-contain" // Removed mix-blend from here
                                         />
                                     </motion.div>
                                 );
-                                currentHeight += 30; // Height of visible bottom bun part
+                                currentHeight += 40; // Height of visible bottom bun part (scaled up)
 
                                 // 2. Patty
                                 elements.push(
                                     <motion.div
                                         key={patty.id}
-                                        className="absolute w-[320px] h-[100px] z-20"
+                                        className="absolute w-[450px] h-[140px] z-20 mix-blend-multiply"
                                         style={{ bottom: currentHeight }}
                                         initial={{ y: -50, opacity: 0 }}
                                         animate={{ y: 0, opacity: 1 }}
                                         transition={{ type: "spring", bounce: 0.4 }}
                                     >
-                                        <Image src={patty.image} alt={patty.label} fill className="object-contain mix-blend-multiply drop-shadow-md" />
+                                        <Image src={patty.image} alt={patty.label} fill className="object-contain drop-shadow-md" />
                                     </motion.div>
                                 );
-                                currentHeight += (patty.thickness || 25);
+                                currentHeight += (patty.thickness ? patty.thickness * 1.4 : 35); // Scale thickness
 
                                 // 3. Cheese
                                 if (cheese.id !== 'none') {
                                     elements.push(
                                         <motion.div
                                             key={cheese.id}
-                                            className="absolute w-[330px] h-[100px] z-30 pointer-events-none"
-                                            style={{ bottom: currentHeight - 10 }} // Slight overlap
+                                            className="absolute w-[460px] h-[140px] z-30 pointer-events-none mix-blend-multiply"
+                                            style={{ bottom: currentHeight - 15 }} // Slight overlap
                                             initial={{ scale: 0.8, opacity: 0 }}
                                             animate={{ scale: 1, opacity: 1 }}
                                         >
                                             {cheese.image && (
-                                                <Image src={cheese.image} alt={cheese.label} fill className="object-contain mix-blend-multiply" />
+                                                <Image src={cheese.image} alt={cheese.label} fill className="object-contain" />
                                             )}
                                         </motion.div>
                                     );
-                                    currentHeight += (cheese.thickness || 10);
+                                    currentHeight += (cheese.thickness ? cheese.thickness * 1.4 : 15);
                                 }
 
                                 // 4. Extras
@@ -139,7 +139,7 @@ export default function BurgerStudioPage() {
                                     elements.push(
                                         <motion.div
                                             key={extra.id}
-                                            className="absolute w-[320px] h-[100px]"
+                                            className="absolute w-[450px] h-[140px] mix-blend-multiply"
                                             style={{
                                                 bottom: currentHeight,
                                                 zIndex: 40 + i
@@ -147,19 +147,19 @@ export default function BurgerStudioPage() {
                                             initial={{ x: -100, opacity: 0 }}
                                             animate={{ x: 0, opacity: 1 }}
                                         >
-                                            <Image src={extra.image} alt={extra.label} fill className="object-contain mix-blend-multiply drop-shadow-sm" />
+                                            <Image src={extra.image} alt={extra.label} fill className="object-contain drop-shadow-sm" />
                                         </motion.div>
                                     );
-                                    currentHeight += (extra.thickness || 10);
+                                    currentHeight += (extra.thickness ? extra.thickness * 1.4 : 15);
                                 });
 
                                 // 5. Top Bun
                                 elements.push(
                                     <motion.div
                                         key="bun-top"
-                                        className="absolute w-[340px] h-[120px] drop-shadow-2xl"
+                                        className="absolute w-[480px] h-[160px] drop-shadow-2xl mix-blend-multiply"
                                         style={{
-                                            bottom: currentHeight - 10, // Sits slightly over the last item
+                                            bottom: currentHeight - 15, // Sits slightly over the last item
                                             zIndex: 100
                                         }}
                                         initial={{ y: -200, opacity: 0 }}
@@ -170,7 +170,7 @@ export default function BurgerStudioPage() {
                                             src={bun.image}
                                             alt={bun.label}
                                             fill
-                                            className="object-contain mix-blend-multiply"
+                                            className="object-contain"
                                         />
                                     </motion.div>
                                 );
