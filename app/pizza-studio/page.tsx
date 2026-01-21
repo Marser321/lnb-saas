@@ -143,33 +143,33 @@ export default function PizzaStudioPage() {
                                     return instances.map((_, i) => {
                                         const isBlackBg = ['mozzarella', 'provolone', 'blue', 'pepperoni', 'ham', 'bacon'].includes(t.id);
 
-                                        // 'mix-blend-plus-lighter' is often better for "adding" light pixels (ingredients) over a dark base (sauce) 
-                                        // without the strict requirements of 'screen'.
+                                        // Reverting to SCREEN. 'plus-lighter' may have limited support or failed in this context.
+                                        // SCREEN is the standard for making black transparent.
                                         const blendClass = isBlackBg
-                                            ? 'mix-blend-plus-lighter'
+                                            ? 'mix-blend-screen'
                                             : 'mix-blend-multiply';
 
                                         // Random-ish psuedo-random positions
                                         const angle = (i * 50 + toppingIndex * 23) % 360;
-                                        const radius = 10 + (i * 7 + toppingIndex * 3) % 40; // 10% to 50% radius
+                                        const radius = 10 + (i * 7 + toppingIndex * 3) % 45;
 
                                         return (
                                             <motion.div
                                                 key={`${t.id}-${i}`}
-                                                initial={{ opacity: 0, scale: 0, y: -20 }}
-                                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                initial={{ opacity: 0, scale: 0 }}
+                                                animate={{ opacity: 1, scale: 1 }}
                                                 exit={{ opacity: 0, scale: 0 }}
                                                 transition={{
                                                     delay: toppingIndex * 0.1 + i * 0.03,
                                                     type: "spring",
                                                     stiffness: 200,
-                                                    damping: 15
+                                                    damping: 20
                                                 }}
                                                 className={cn(
-                                                    "absolute w-12 h-12 rounded-full", // Slightly larger, always rounded
-                                                    blendClass,
-                                                    // For white-bg veggies, we keep the overflow hidden to clip the square
-                                                    !isBlackBg && "overflow-hidden shadow-sm"
+                                                    "absolute w-12 h-12",
+                                                    blendClass, // Blend mode APPLIED TO TRANSFORMED CONTAINER
+                                                    // Safety: Round corners to minimize artifacts if blending isn't 100% perfect at edges
+                                                    "rounded-full"
                                                 )}
                                                 style={{
                                                     top: `${50 + Math.sin(angle * Math.PI / 180) * radius}%`,
@@ -183,9 +183,8 @@ export default function PizzaStudioPage() {
                                                     fill
                                                     className={cn(
                                                         "object-cover",
-                                                        isBlackBg && "scale-110", // Zoom in slightly for organic edge
-                                                        // Adjust contrast for pop
-                                                        isBlackBg && "contrast-125 brightness-110"
+                                                        // Scale up content slightly to fill the rounded mask
+                                                        "scale-110"
                                                     )}
                                                 />
                                             </motion.div>
