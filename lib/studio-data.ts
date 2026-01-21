@@ -77,9 +77,9 @@ export const EMPANADA_FLAVORS = [
 // Using generated isometric images for realistic stacking.
 
 export const BURGER_BUNS = [
-    { id: 'brioche', label: 'Brioche', price: 0, image: '/images/studio/burger-bun-top.png', bottomImage: '/images/studio/burger-bun-bottom.png', thickness: 40 }, // Top height
-    { id: 'potato', label: 'Pan de Papa', price: 30, image: '/images/studio/burger-bun-top.png', bottomImage: '/images/studio/burger-bun-bottom.png', thickness: 40 },
-    { id: 'gluten-free', label: 'Sin Gluten', price: 50, image: '/images/studio/burger-bun-top.png', bottomImage: '/images/studio/burger-bun-bottom.png', thickness: 40 },
+    { id: 'brioche', label: 'Brioche', price: 0, image: '/images/studio/burger-side-bun-top.png', bottomImage: '/images/studio/burger-side-bun-bottom.png', thickness: 60 }, // Top height
+    { id: 'potato', label: 'Pan de Papa', price: 30, image: '/images/studio/burger-side-bun-top.png', bottomImage: '/images/studio/burger-side-bun-bottom.png', thickness: 60 },
+    { id: 'gluten-free', label: 'Sin Gluten', price: 50, image: '/images/studio/burger-side-bun-top.png', bottomImage: '/images/studio/burger-side-bun-bottom.png', thickness: 60 },
 ];
 
 export const BURGER_PATTIES = [
