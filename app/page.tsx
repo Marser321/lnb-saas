@@ -102,35 +102,35 @@ export default function Home() {
 
 
                     <div>
-                        <h2 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
+                        <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2 drop-shadow-md">
                             <Utensils className="text-amber-500" /> Craving Studios
                         </h2>
                         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:grid md:grid-cols-3 md:mx-0 md:px-0 md:overflow-visible">
                             <Link href="/pizza-studio" className="min-w-[200px] block group">
-                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-stone-100 mb-2">
+                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
                                     <Image src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=400&fit=crop" alt="Pizza" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                                 </div>
-                                <h3 className="font-bold text-stone-900 flex items-center gap-1">🍕 Pizza Studio</h3>
-                                <p className="text-xs text-stone-500">Diseñá tu masa ideal</p>
+                                <h3 className="font-bold text-white flex items-center gap-1">🍕 Pizza Studio</h3>
+                                <p className="text-xs text-amber-200/80">Diseñá tu masa ideal</p>
                             </Link>
 
                             <Link href="/burger-studio" className="min-w-[200px] block group">
-                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-stone-100 mb-2">
+                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
                                     <Image src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=400&fit=crop" alt="Burger" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                                 </div>
-                                <h3 className="font-bold text-stone-900 flex items-center gap-1">🍔 Burger Studio</h3>
-                                <p className="text-xs text-stone-500">Stack builder premium</p>
+                                <h3 className="font-bold text-white flex items-center gap-1">🍔 Burger Studio</h3>
+                                <p className="text-xs text-amber-200/80">Stack builder premium</p>
                             </Link>
 
                             <Link href="/empanada-studio" className="min-w-[200px] block group">
-                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-stone-100 mb-2">
+                                <div className="relative h-40 rounded-2xl overflow-hidden shadow-lg border border-white/10 mb-2">
                                     <Image src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=400&fit=crop" alt="Empanadas" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                                 </div>
-                                <h3 className="font-bold text-stone-900 flex items-center gap-1">🥟 Empanada Studio</h3>
-                                <p className="text-xs text-stone-500">Armá tu caja</p>
+                                <h3 className="font-bold text-white flex items-center gap-1">🥟 Empanada Studio</h3>
+                                <p className="text-xs text-amber-200/80">Armá tu caja</p>
                             </Link>
                         </div>
                     </div>

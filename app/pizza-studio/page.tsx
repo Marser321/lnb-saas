@@ -134,26 +134,41 @@ export default function PizzaStudioPage() {
                         )}
 
                         {/* Toppings Layer */}
-                        <div className="absolute inset-4 pointer-events-none z-10">
+                        {/* Toppings Layer - Scattered & Realistic */}
+                        <div className="absolute inset-2 pointer-events-none z-10 overflow-hidden rounded-full">
                             <AnimatePresence>
-                                {toppings.map((t, i) => (
-                                    <motion.div
-                                        key={t.id + i}
-                                        initial={{ opacity: 0, scale: 0, y: -20 }}
-                                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                                        exit={{ opacity: 0, scale: 0 }}
-                                        transition={{ delay: i * 0.05 }}
-                                        className="absolute w-12 h-12"
-                                        style={{
-                                            // Improved random positioning logic
-                                            top: `${15 + (i * 17) % 65}%`,
-                                            left: `${15 + (i * 23) % 65}%`,
-                                            transform: `rotate(${i * 45}deg)`
-                                        }}
-                                    >
-                                        <Image src={t.image} alt={t.label} width={48} height={48} className="object-contain drop-shadow-md" />
-                                    </motion.div>
-                                ))}
+                                {toppings.map((t, toppingIndex) => {
+                                    // Generate multiple instances for each topping to simulate "scattering"
+                                    // We create 6 instances per topping
+                                    const instances = [0, 1, 2, 3, 4, 5];
+                                    return instances.map((_, i) => (
+                                        <motion.div
+                                            key={`${t.id}-${i}`}
+                                            initial={{ opacity: 0, scale: 0, y: -20 }}
+                                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                                            exit={{ opacity: 0, scale: 0 }}
+                                            transition={{ delay: toppingIndex * 0.1 + i * 0.05 }}
+                                            className="absolute w-10 h-10"
+                                            style={{
+                                                // Pseudo-random placement logic
+                                                // We use prime numbers and modulo to get a deterministic but scattered distribution
+                                                // that varies per topping type and instance index.
+                                                // Radius factor ensures they don't all cluster in center or edge.
+                                                top: `${50 + (Math.sin((toppingIndex * 13 + i * 7)) * (20 + (i % 3) * 10))}%`,
+                                                left: `${50 + (Math.cos((toppingIndex * 13 + i * 7)) * (20 + (i % 3) * 10))}%`,
+                                                transform: `translate(-50%, -50%) rotate(${i * 60 + toppingIndex * 30}deg)`
+                                            }}
+                                        >
+                                            <Image
+                                                src={t.image}
+                                                alt={t.label}
+                                                width={40}
+                                                height={40}
+                                                className="object-contain drop-shadow-sm mix-blend-multiply"
+                                            />
+                                        </motion.div>
+                                    ));
+                                })}
                             </AnimatePresence>
                         </div>
                         {/* Highlight/Shine */}

@@ -29,21 +29,21 @@ export const PIZZA_SAUCES = [
 
 export const PIZZA_TOPPINGS = [
     // Cheeses
-    { id: 'mozzarella', label: 'Mozzarella', price: 0, category: 'cheese', image: 'https://images.pexels.com/photos/4109890/pexels-photo-4109890.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'provolone', label: 'Provolone', price: 80, category: 'cheese', image: 'https://images.pexels.com/photos/5702787/pexels-photo-5702787.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'blue', label: 'Roquefort', price: 90, category: 'cheese', image: 'https://images.pexels.com/photos/4198170/pexels-photo-4198170.jpeg?auto=compress&cs=tinysrgb&w=100' },
+    { id: 'mozzarella', label: 'Mozzarella', price: 0, category: 'cheese', image: '/images/studio/topping-mozzarella.png' },
+    { id: 'provolone', label: 'Provolone', price: 80, category: 'cheese', image: '/images/studio/topping-mozzarella.png' }, // Reusing mozz for now, distinct enough by context
+    { id: 'blue', label: 'Roquefort', price: 90, category: 'cheese', image: '/images/studio/topping-mozzarella.png' }, // Reusing, maybe need distinct later
 
     // Meats
-    { id: 'ham', label: 'Jamón Cocido', price: 60, category: 'meat', image: 'https://images.pexels.com/photos/5718025/pexels-photo-5718025.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'pepperoni', label: 'Pepperoni', price: 80, category: 'meat', image: 'https://images.pexels.com/photos/3944312/pexels-photo-3944312.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'bacon', label: 'Panceta', price: 90, category: 'meat', image: 'https://images.pexels.com/photos/6287525/pexels-photo-6287525.jpeg?auto=compress&cs=tinysrgb&w=100' },
+    { id: 'ham', label: 'Jamón Cocido', price: 60, category: 'meat', image: '/images/studio/topping-ham.png' },
+    { id: 'pepperoni', label: 'Pepperoni', price: 80, category: 'meat', image: '/images/studio/topping-pepperoni.png' },
+    { id: 'bacon', label: 'Panceta', price: 90, category: 'meat', image: '/images/studio/topping-ham.png' }, // Reusing ham for similar look
 
     // Veggies
-    { id: 'onion', label: 'Cebolla', price: 30, category: 'veggie', image: 'https://images.pexels.com/photos/4197444/pexels-photo-4197444.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'peppers', label: 'Morrones', price: 40, category: 'veggie', image: 'https://images.pexels.com/photos/594137/pexels-photo-594137.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'olives', label: 'Aceitunas', price: 40, category: 'veggie', image: 'https://images.pexels.com/photos/4109913/pexels-photo-4109913.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'mushrooms', label: 'Hongos', price: 60, category: 'veggie', image: 'https://images.pexels.com/photos/10900010/pexels-photo-10900010.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'arugula', label: 'Rúcula', price: 50, category: 'veggie', image: 'https://images.pexels.com/photos/6306655/pexels-photo-6306655.jpeg?auto=compress&cs=tinysrgb&w=100' },
+    { id: 'onion', label: 'Cebolla', price: 30, category: 'veggie', image: '/images/studio/topping-onion.png' },
+    { id: 'peppers', label: 'Morrones', price: 40, category: 'veggie', image: '/images/studio/topping-onion.png' }, // Reusing onion shape roughly
+    { id: 'olives', label: 'Aceitunas', price: 40, category: 'veggie', image: '/images/studio/topping-olives.png' },
+    { id: 'mushrooms', label: 'Hongos', price: 60, category: 'veggie', image: '/images/studio/topping-olives.png' }, // Reusing olives shape/scatter style
+    { id: 'arugula', label: 'Rúcula', price: 50, category: 'veggie', image: '/images/studio/topping-arugula.png' },
 ];
 
 // ------------------------------------------
