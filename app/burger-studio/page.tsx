@@ -93,7 +93,7 @@ export default function BurgerStudioPage() {
                             />
                         </motion.div>
 
-                        {/* 2. Patty - Isometric Asset (Needs Zoom) */}
+                        {/* 2. Patty - Isometric Asset (Needs Zoom + Filters) */}
                         <motion.div
                             key={patty.id}
                             initial={{ y: -20, opacity: 0 }}
@@ -101,27 +101,35 @@ export default function BurgerStudioPage() {
                             transition={{ delay: 0.1 }}
                             className="relative w-[500px] h-[140px] z-20 -mb-8 flex-shrink-0 mix-blend-multiply"
                         >
-                            {/* Zooming in 1.2x to fill white space */}
-                            <Image src={patty.image} alt={patty.label} fill className="object-contain scale-[1.2]" />
+                            <Image
+                                src={patty.image}
+                                alt={patty.label}
+                                fill
+                                className={`object-contain scale-[1.2] ${patty.className || ''}`}
+                            />
                         </motion.div>
 
-                        {/* 3. Cheese - Isometric Asset (Needs Zoom & Crop) */}
+                        {/* 3. Cheese - DRASTICALLY REDUCED (Fixed Huge Scale) */}
                         {cheese.id !== 'none' && (
                             <motion.div
                                 key={cheese.id}
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.15 }}
-                                className="relative w-[480px] h-[100px] z-30 -mb-10 flex-shrink-0 pointer-events-none mix-blend-multiply"
+                                className="relative w-[380px] h-[90px] z-30 -mb-8 flex-shrink-0 pointer-events-none mix-blend-multiply"
                             >
                                 {cheese.image && (
-                                    // Zooming 1.3x to focus on the slice
-                                    <Image src={cheese.image} alt={cheese.label} fill className="object-cover scale-[1.3]" />
+                                    <Image
+                                        src={cheese.image}
+                                        alt={cheese.label}
+                                        fill
+                                        className={`object-cover scale-[1.05] ${cheese.className || ''}`}
+                                    />
                                 )}
                             </motion.div>
                         )}
 
-                        {/* 4. Extras - Isometric Assets (Tiny -> Need Massive Zoom) */}
+                        {/* 4. Extras - Isometric Assets + Filters */}
                         <AnimatePresence>
                             {extras.map((extra, i) => (
                                 <motion.div
@@ -130,11 +138,15 @@ export default function BurgerStudioPage() {
                                     animate={{ x: 0, opacity: 1 }}
                                     exit={{ scale: 0, opacity: 0 }}
                                     transition={{ delay: 0.2 + i * 0.1 }}
-                                    className="relative w-[480px] h-[80px] -mb-8 flex-shrink-0 mix-blend-multiply"
+                                    className="relative w-[450px] h-[80px] -mb-8 flex-shrink-0 mix-blend-multiply"
                                     style={{ zIndex: 40 + i }}
                                 >
-                                    {/* Massive zoom 1.8x because isometric extras have huge padding */}
-                                    <Image src={extra.image} alt={extra.label} fill className="object-contain scale-[1.8]" />
+                                    <Image
+                                        src={extra.image}
+                                        alt={extra.label}
+                                        fill
+                                        className={`object-contain scale-[1.8] ${extra.className || ''}`}
+                                    />
                                 </motion.div>
                             ))}
                         </AnimatePresence>
