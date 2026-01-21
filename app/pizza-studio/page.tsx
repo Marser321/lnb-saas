@@ -159,16 +159,26 @@ export default function PizzaStudioPage() {
                                                 transform: `translate(-50%, -50%) rotate(${i * 60 + toppingIndex * 30}deg)`
                                             }}
                                         >
-                                            {/* Conditional styling based on category */}
-                                            {/* Cheese needs to be opaque (white), others blend better with multiply */}
-                                            <div className="w-full h-full rounded-full overflow-hidden relative">
-                                                <Image
-                                                    src={t.image}
-                                                    alt={t.label}
-                                                    fill
-                                                    className={`object-cover ${t.category === 'cheese' ? '' : 'mix-blend-multiply scale-90'}`}
-                                                />
-                                            </div>
+                                            // Conditional styling based on background type of the image
+                                            // New assets (cheese, meats) are on BLACK background -> Use SCREEN to remove black
+                                            // Old assets (veggies) are on WHITE background -> Use MULTIPLY to remove white
+
+                                            {/* Determine blend mode based on topping type */}
+                                            {(() => {
+                                                const isBlackBg = ['mozzarella', 'provolone', 'blue', 'pepperoni', 'ham', 'bacon'].includes(t.id);
+                                                const blendMode = isBlackBg ? 'mix-blend-screen' : 'mix-blend-multiply';
+
+                                                return (
+                                                    <div className="w-full h-full rounded-full overflow-hidden relative">
+                                                        <Image
+                                                            src={t.image}
+                                                            alt={t.label}
+                                                            fill
+                                                            className={`object-cover ${blendMode}`}
+                                                        />
+                                                    </div>
+                                                );
+                                            })()}
                                         </motion.div>
                                     ));
                                 })}

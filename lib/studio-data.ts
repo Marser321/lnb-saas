@@ -27,23 +27,14 @@ export const PIZZA_SAUCES = [
     { id: 'none', label: 'Sin Salsa (Bianca)', price: 0, color: 'transparent', image: '/images/studio/pizza-dough-traditional.png' }, // Valid image for thumbnail
 ];
 
-export const PIZZA_TOPPINGS = [
-    // Cheeses
-    { id: 'mozzarella', label: 'Mozzarella', price: 0, category: 'cheese', image: '/images/studio/topping-mozzarella.png' },
-    { id: 'provolone', label: 'Provolone', price: 80, category: 'cheese', image: '/images/studio/topping-mozzarella.png' }, // Reusing mozz for now, distinct enough by context
-    { id: 'blue', label: 'Roquefort', price: 90, category: 'cheese', image: '/images/studio/topping-mozzarella.png' }, // Reusing, maybe need distinct later
+{ id: 'bacon', label: 'Panceta', price: 90, category: 'meat', image: '/images/studio/topping-ham-black.png' }, // Reusing ham for similar look
 
-    // Meats
-    { id: 'ham', label: 'Jamón Cocido', price: 60, category: 'meat', image: '/images/studio/topping-ham.png' },
-    { id: 'pepperoni', label: 'Pepperoni', price: 80, category: 'meat', image: '/images/studio/topping-pepperoni.png' },
-    { id: 'bacon', label: 'Panceta', price: 90, category: 'meat', image: '/images/studio/topping-ham.png' }, // Reusing ham for similar look
-
-    // Veggies
-    { id: 'onion', label: 'Cebolla', price: 30, category: 'veggie', image: '/images/studio/topping-onion.png' },
-    { id: 'peppers', label: 'Morrones', price: 40, category: 'veggie', image: '/images/studio/topping-onion.png' }, // Reusing onion shape roughly
-    { id: 'olives', label: 'Aceitunas', price: 40, category: 'veggie', image: '/images/studio/topping-olives.png' },
-    { id: 'mushrooms', label: 'Hongos', price: 60, category: 'veggie', image: '/images/studio/topping-olives.png' }, // Reusing olives shape/scatter style
-    { id: 'arugula', label: 'Rúcula', price: 50, category: 'veggie', image: '/images/studio/topping-arugula.png' },
+// Veggies
+{ id: 'onion', label: 'Cebolla', price: 30, category: 'veggie', image: '/images/studio/topping-onion.png' },
+{ id: 'peppers', label: 'Morrones', price: 40, category: 'veggie', image: '/images/studio/topping-onion.png' }, // Reusing onion shape roughly
+{ id: 'olives', label: 'Aceitunas', price: 40, category: 'veggie', image: '/images/studio/topping-olives.png' },
+{ id: 'mushrooms', label: 'Hongos', price: 60, category: 'veggie', image: '/images/studio/topping-olives.png' }, // Reusing olives shape/scatter style
+{ id: 'arugula', label: 'Rúcula', price: 50, category: 'veggie', image: '/images/studio/topping-arugula.png' },
 ];
 
 // ------------------------------------------
