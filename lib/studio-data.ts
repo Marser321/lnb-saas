@@ -74,34 +74,34 @@ export const EMPANADA_FLAVORS = [
 // ------------------------------------------
 
 // Note: Stacking order is significant for the visualizer.
-// Using reliable Pexels images for burger components.
+// Using generated isometric images for realistic stacking.
 
 export const BURGER_BUNS = [
-    { id: 'brioche', label: 'Brioche', price: 0, image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=200' },
-    { id: 'potato', label: 'Pan de Papa', price: 30, image: 'https://images.pexels.com/photos/920220/pexels-photo-920220.jpeg?auto=compress&cs=tinysrgb&w=200' },
-    { id: 'gluten-free', label: 'Sin Gluten', price: 50, image: 'https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=200' },
+    { id: 'brioche', label: 'Brioche', price: 0, image: '/images/studio/burger-bun-top.png', bottomImage: '/images/studio/burger-bun-bottom.png', thickness: 40 }, // Top height
+    { id: 'potato', label: 'Pan de Papa', price: 30, image: '/images/studio/burger-bun-top.png', bottomImage: '/images/studio/burger-bun-bottom.png', thickness: 40 },
+    { id: 'gluten-free', label: 'Sin Gluten', price: 50, image: '/images/studio/burger-bun-top.png', bottomImage: '/images/studio/burger-bun-bottom.png', thickness: 40 },
 ];
 
 export const BURGER_PATTIES = [
-    { id: 'beef-180', label: 'Carne 180g', price: 350, image: 'https://images.pexels.com/photos/6546028/pexels-photo-6546028.jpeg?auto=compress&cs=tinysrgb&w=200' },
-    { id: 'beef-double', label: 'Doble Carne', price: 550, image: 'https://images.pexels.com/photos/1639565/pexels-photo-1639565.jpeg?auto=compress&cs=tinysrgb&w=200' },
-    { id: 'chicken-crispy', label: 'Pollo Crispy', price: 320, image: 'https://images.pexels.com/photos/6210876/pexels-photo-6210876.jpeg?auto=compress&cs=tinysrgb&w=200' },
-    { id: 'veggie', label: 'NotBurger (Veggie)', price: 380, image: 'https://images.pexels.com/photos/793785/pexels-photo-793785.jpeg?auto=compress&cs=tinysrgb&w=200' },
+    { id: 'beef-180', label: 'Carne 180g', price: 350, image: '/images/studio/burger-patty-beef.png', thickness: 25 },
+    { id: 'beef-double', label: 'Doble Carne', price: 550, image: '/images/studio/burger-patty-beef.png', thickness: 50 }, // Simulated double thickness
+    { id: 'chicken-crispy', label: 'Pollo Crispy', price: 320, image: '/images/studio/burger-patty-beef.png', thickness: 28 }, // Placeholder for chicken
+    { id: 'veggie', label: 'NotBurger (Veggie)', price: 380, image: '/images/studio/burger-patty-beef.png', thickness: 22 }, // Placeholder
 ];
 
 export const BURGER_CHEESES = [
-    { id: 'cheddar', label: 'Cheddar', price: 40, color: 'bg-yellow-400', image: 'https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'dambo', label: 'Dambo', price: 40, color: 'bg-yellow-100', image: 'https://images.pexels.com/photos/4187778/pexels-photo-4187778.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'blue', label: 'Roquefort', price: 60, color: 'bg-stone-200', image: 'https://images.pexels.com/photos/4198170/pexels-photo-4198170.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'none', label: 'Sin Queso', price: 0, color: 'transparent', image: null },
+    { id: 'cheddar', label: 'Cheddar', price: 40, color: 'bg-yellow-400', image: '/images/studio/burger-cheese-cheddar.png', thickness: 8 },
+    { id: 'dambo', label: 'Dambo', price: 40, color: 'bg-yellow-100', image: '/images/studio/burger-cheese-cheddar.png', thickness: 8 }, // Placeholder
+    { id: 'blue', label: 'Roquefort', price: 60, color: 'bg-stone-200', image: '/images/studio/burger-cheese-cheddar.png', thickness: 10 }, // Placeholder
+    { id: 'none', label: 'Sin Queso', price: 0, color: 'transparent', image: null, thickness: 0 },
 ];
 
 export const BURGER_EXTRAS = [
-    { id: 'bacon', label: 'Panceta', price: 60, image: 'https://images.pexels.com/photos/1927383/pexels-photo-1927383.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'egg', label: 'Huevo Frito', price: 50, image: 'https://images.pexels.com/photos/704569/pexels-photo-704569.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'onion-caramel', label: 'Cebolla Caramelizada', price: 40, image: 'https://images.pexels.com/photos/4197444/pexels-photo-4197444.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'pickles', label: 'Pepinillos', price: 30, image: 'https://images.pexels.com/photos/5695884/pexels-photo-5695884.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'lettuce', label: 'Lechuga', price: 20, image: 'https://images.pexels.com/photos/1199562/pexels-photo-1199562.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'tomato', label: 'Tomate', price: 20, image: 'https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=100' },
-    { id: 'avocado', label: 'Palta', price: 80, image: 'https://images.pexels.com/photos/557659/pexels-photo-557659.jpeg?auto=compress&cs=tinysrgb&w=100' },
+    { id: 'bacon', label: 'Panceta', price: 60, image: '/images/studio/burger-bacon.png', thickness: 6 },
+    { id: 'egg', label: 'Huevo Frito', price: 50, image: '/images/studio/burger-cheese-cheddar.png', thickness: 12 }, // Placeholder
+    { id: 'onion-caramel', label: 'Cebolla Caramelizada', price: 40, image: '/images/studio/burger-bacon.png', thickness: 8 },
+    { id: 'pickles', label: 'Pepinillos', price: 30, image: '/images/studio/burger-lettuce.png', thickness: 5 },
+    { id: 'lettuce', label: 'Lechuga', price: 20, image: '/images/studio/burger-lettuce.png', thickness: 15 },
+    { id: 'tomato', label: 'Tomate', price: 20, image: '/images/studio/burger-tomato.png', thickness: 10 },
+    { id: 'avocado', label: 'Palta', price: 80, image: '/images/studio/burger-lettuce.png', thickness: 12 },
 ];
