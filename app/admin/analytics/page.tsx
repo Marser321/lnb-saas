@@ -71,7 +71,7 @@ export default function AnalyticsPage() {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard icon={DollarSign} label="Ventas Totales" value={`$${totalSales.toLocaleString()}`} change="+12.5%" positive />
+                <StatCard icon={DollarSign} label="Ventas Totales" value={`$${totalSales.toLocaleString('es-UY')}`} change="+12.5%" positive />
                 <StatCard icon={ShoppingCart} label="Pedidos" value="324" change="+8.2%" positive />
                 <StatCard icon={Users} label="Clientes Nuevos" value="48" change="+15.3%" positive />
                 <StatCard icon={Package} label="Ticket Promedio" value="$412" change="-2.1%" positive={false} />
@@ -147,7 +147,7 @@ export default function AnalyticsPage() {
                                 <p className="text-xs text-stone-500">{product.sales} ventas</p>
                             </div>
                             <div className="text-right">
-                                <p className="font-bold text-stone-900">${product.revenue.toLocaleString()}</p>
+                                <p className="font-bold text-stone-900">${product.revenue.toLocaleString('es-UY')}</p>
                             </div>
                         </div>
                     ))}

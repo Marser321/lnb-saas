@@ -325,7 +325,7 @@ export default function AdminPromotionsPage() {
                                 <div className="flex items-center gap-4 mt-3 text-xs text-stone-400">
                                     <span className="flex items-center gap-1">
                                         <Calendar size={12} />
-                                        {new Date(promo.endDate).toLocaleDateString('es-UY', { day: 'numeric', month: 'short' })}
+                                        {new Date(promo.endDate).toLocaleDateString('es-UY', { day: 'numeric', month: 'short', timeZone: 'UTC' })}
                                     </span>
                                     <span className="flex items-center gap-1">
                                         <TrendingUp size={12} />
