@@ -159,7 +159,7 @@ export default function AdminCustomersPage() {
                 <div className="bg-white rounded-2xl p-4 shadow-sm border border-stone-100 flex flex-col justify-between">
                     <TrendingUp size={24} className="text-blue-500 mb-2" />
                     <div>
-                        <p className="text-3xl font-bold text-stone-900">${totalSpent.toLocaleString()}</p>
+                        <p className="text-3xl font-bold text-stone-900">${totalSpent.toLocaleString('es-UY')}</p>
                         <p className="text-xs text-stone-500 font-bold uppercase tracking-wide">Ventas Totales</p>
                     </div>
                 </div>
@@ -265,7 +265,7 @@ export default function AdminCustomersPage() {
                                         <span className="font-bold text-amber-600">{formatPoints(customer.points)} pts</span>
                                     </td>
                                     <td className="px-6 py-4 font-medium text-stone-700">
-                                        ${customer.totalSpent.toLocaleString()}
+                                        ${customer.totalSpent.toLocaleString('es-UY')}
                                     </td>
                                     <td className="px-6 py-4 text-stone-600">
                                         {customer.ordersCount}
@@ -273,7 +273,8 @@ export default function AdminCustomersPage() {
                                     <td className="px-6 py-4 text-stone-500 text-sm">
                                         {new Date(customer.lastOrder).toLocaleDateString('es-UY', {
                                             day: 'numeric',
-                                            month: 'short'
+                                            month: 'short',
+                                            timeZone: 'UTC'
                                         })}
                                     </td>
                                     <td className="px-6 py-4">
