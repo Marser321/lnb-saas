@@ -178,7 +178,7 @@ export default function SubscriptionPage() {
 
                                 <div className="mb-8">
                                     <div className="flex items-baseline gap-1">
-                                        <span className="text-4xl font-bold tracking-tight">${price.toLocaleString()}</span>
+                                        <span className="text-4xl font-bold tracking-tight">${price.toLocaleString('es-UY')}</span>
                                         <span className={cn("text-sm", isPro ? "text-stone-500" : "text-stone-400")}>/{billingCycle === 'monthly' ? 'mes' : 'año'}</span>
                                     </div>
                                 </div>
